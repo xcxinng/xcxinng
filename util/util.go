@@ -1,13 +1,9 @@
-// util.go
-// 需要导入 unsafe 包
-
 package util
 
-import _ "unsafe"
+import _ "awesomeGolang/third_party"
 
-//go:linkname hello awesomeGolang/third_party.byteToString
-func hello(d []byte) string
+func useByteToString(d []byte) string
 
-func CallHello(d []byte) string {
-	return hello(d)
+func CallByteToString(d []byte) string {
+	return useByteToString(d)
 }

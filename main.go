@@ -1,10 +1,11 @@
 package main
 
 import (
-	"awesomeProject/util"
+	"awesomeGolang/util"
 	"fmt"
 )
 
 func main() {
-	fmt.Println(util.CallHello([]byte("hello world!")))
+	// study golang linkname
+	fmt.Println(util.CallByteToString([]byte("hello world!")))
 }

@@ -1,7 +1,6 @@
 package third_party
 
 import (
-	_ "awesomeProject/util"
 	"unsafe"
 )
 
@@ -15,7 +14,7 @@ import (
 // and the last but not least, use go:linkname to replace the bodiless function
 // in other package.
 //
-//go:linkname byteToString awesomeGolang/util/
+//go:linkname byteToString awesomeGolang/util.useByteToString
 func byteToString(d []byte) string {
 	return *(*string)(unsafe.Pointer(&d))
 }

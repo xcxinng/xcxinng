@@ -1,4 +1,4 @@
-module awesomeProject
+module awesomeGolang
 
 go 1.18
 
