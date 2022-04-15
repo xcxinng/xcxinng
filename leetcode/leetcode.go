@@ -710,10 +710,10 @@ func myAtoi(s string) int {
 	if s == "" {
 		return -1
 	}
-	negative := false
+	//negative := false
 	if s[0] == '-' {
 		s = s[1:]
-		negative = true
+		//negative = true
 	} else if s[0] == '+' {
 		s = s[1:]
 	}
