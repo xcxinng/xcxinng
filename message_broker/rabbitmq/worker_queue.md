@@ -1,7 +1,8 @@
 #Reference   
 origin official page: https://www.rabbitmq.com/tutorials/tutorial-two-go.html   
 
-#Communicating Model
+#Communicating Model   
+
 ![image info](./one_producer_multiple_consumers.png)
 
 #Read with the following questions
