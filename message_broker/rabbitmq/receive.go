@@ -1,23 +1,17 @@
-package main
+package rabbitmq
 
 import (
 	amqp "github.com/rabbitmq/amqp091-go"
 	"log"
 )
 
-func failOnError2(err error, msg string) {
-	if err != nil {
-		log.Panicf("%s: %s", msg, err)
-	}
-}
-
-func main() {
+func receive() {
 	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
-	failOnError2(err, "Failed to connect to RabbitMQ")
+	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
 	ch, err := conn.Channel()
-	failOnError2(err, "Failed to open a channel")
+	failOnError(err, "Failed to open a channel")
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
@@ -28,7 +22,7 @@ func main() {
 		false,               // no-wait
 		nil,                 // arguments
 	)
-	failOnError2(err, "Failed to declare a queue")
+	failOnError(err, "Failed to declare a queue")
 
 	msgs, err := ch.Consume(
 		q.Name, // queue
@@ -39,7 +33,7 @@ func main() {
 		false,  // no-wait
 		nil,    // args
 	)
-	failOnError2(err, "Failed to register a consumer")
+	failOnError(err, "Failed to register a consumer")
 
 	var forever chan struct{}
 

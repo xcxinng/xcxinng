@@ -1,18 +1,11 @@
 package rabbitmq
 
 import (
-	"log"
-
 	amqp "github.com/rabbitmq/amqp091-go"
+	"log"
 )
 
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Panicf("%s: %s", msg, err)
-	}
-}
-
-func send() {
+func newTask(body string) {
 	// establish an ampq connection
 	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
@@ -26,25 +19,25 @@ func send() {
 
 	// to define a queue to which we are going to send
 	q, err := ch.QueueDeclare(
-		"hello_world_queue", // name
-		false,               // durable // false means keep data in mem
-		false,               // delete when unused // keep the data when no consuming
-		false,               // exclusive
-		false,               // no-wait
-		nil,                 // arguments
+		"work_queue", // name
+		true,         // durable // false means keep data in mem
+		false,        // delete when unused // keep the data when no consuming
+		false,        // exclusive
+		false,        // no-wait
+		nil,          // arguments
 	)
 	failOnError(err, "Failed to declare a queue")
 
-	body := "Hello World!"
 	err = ch.Publish(
 		"",     // exchange
 		q.Name, // routing key
 		false,  // mandatory
-		false,  // immediate
+		false,
 		amqp.Publishing{
-			ContentType: "text/plain",
-			Body:        []byte(body),
+			DeliveryMode: amqp.Persistent,
+			ContentType:  "text/plain",
+			Body:         []byte(body),
 		})
 	failOnError(err, "Failed to publish a message")
-	log.Printf(" [x] Sent %s\n", body)
+	log.Printf(" [x] Sent %s", body)
 }
