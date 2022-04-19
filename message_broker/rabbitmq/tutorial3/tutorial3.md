@@ -35,10 +35,10 @@ Instead, the producer can only send messages to an exchange. An exchange is a ve
 receives messages from producers and the other side it pushes them to queues. The exchange must know exactly what 
 to do with a message it receives. Should it be appended to a particular queue? Should it be appended to many queues? 
 Or should it get discarded. The rules for that are defined by the exchange type.   
-![exchange_model](./exchanges.png)   
+![exchange_model](images/exchanges.png)   
 
 There are a few exchange types available, by default it has 7 types in rabbit:   
-![exchange_types](./exchange_type.png)   
+![exchange_types](images/exchange_type.png)   
 We focus on fanout type, and let's create an exchange of this type, and call it logs:
 ```go
 err = ch.ExchangeDeclare(
@@ -133,7 +133,7 @@ You can learn more about the exclusive flag and other queue properties in the [g
 
 ##Bindings
 
-![bindings](./bindings.png)
+![bindings](images/bindings.png)
 
 We've already created a fanout exchange and a queue. Now we need to tell the exchange to send messages to our queue. 
 That relationship between exchange and a queue is called a binding.
@@ -155,7 +155,7 @@ From now on the <mark>logs</mark> exchange will append messages to our queue.
 > rabbitmqctl list_bindings
 > ```
 ##Putting it all together
-![overall](./python-three-overall.png)   
+![overall](images/python-three-overall.png)   
 
 The producer program, which emits log messages, doesn't look much different from the previous tutorial. The most 
 important change is that we now want to publish messages to our <mark>logs</mark> exchange instead of the nameless one. We need to

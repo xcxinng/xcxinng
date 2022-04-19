@@ -3,7 +3,7 @@ origin official page: https://www.rabbitmq.com/tutorials/tutorial-two-go.html
 
 #Communicating Model   
 
-![image info](one_producer_multiple_consumers.png)
+![image info](rabbit.png)
 
 #Read with the following questions
 - How rabbitMQ dispatch tasks ?
