@@ -6,7 +6,7 @@ All the commit messages of this project should comply with [Conventional Commits
 And here are some special commit types in this codebase:
 - <mark>tutorial</mark>: coding follow the official tutorial
 - <mark>leetcode</mark>: leetcode algorithm stuffs
-- <mark>demo</mark>: for personal learning habit, whenever after finishing some tutorials, I'll try to apply them to some
+- <mark>learn</mark>: for personal learning habit, whenever after finishing some tutorials, I'll try to apply them to some
 practical scenes.
 
 # Naming Specification
