@@ -50,7 +50,7 @@ false,       // immediate
 amqp.Publishing{
 ContentType:   "text/plain",
 CorrelationId: corrId, // for the client to recognize which request/response
-ReplyTo:       q.Name, // tell mq to which queue distribute 
+ReplyTo:       q.Name, // tell mq to which queue distribute
 Body:          []byte(strconv.Itoa(n)),
 })
 ```
@@ -62,7 +62,7 @@ Body:          []byte(strconv.Itoa(n)),
 >
 >- <mark>persistent</mark>: Marks a message as persistent (with a value of true) or transient (false). You may remember
    > this property from the second tutorial.
->- <mark>content_type</mark>: Used to describe the mime-type of the encoding. For example for the often used JSON 
+>- <mark>content_type</mark>: Used to describe the mime-type of the encoding. For example for the often used JSON
    > encoding it is a good practice to set this property to: application/json.
 >- <mark>reply_to</mark>: Commonly used to name a callback queue.
 >- <mark>correlation_id</mark>: Useful to correlate RPC responses with requests.
@@ -98,6 +98,16 @@ Our RPC will work like this:
   a message with the result back to the Client, using the queue from the reply_to field.
 - The client waits for data on the callback queue. When a message appears, it checks the correlation_id property. If it
   matches the value from the request it returns the response to the application.
-   
+
 #Put it all together
 see code in **rpc_client.go** and **rpc_server.go**
+
+#Advantage of RPC service based on rabbit
+It may seem more complicated than RPC service without rabbit, therefor, why should we build RPC service based on rabbit?
+
+After this tutorial, I've done some research on "RPC service based on rabbit", here are some advantages
+I've found on internet:
+1. decouple the RPC client and server
+2. reduce the stress on the server
+3. make it easier to expand horizontally
+4. rabbit has supported RPC friendly
