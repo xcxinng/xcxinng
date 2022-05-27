@@ -334,25 +334,25 @@ func First(query string, replicas ...Search) Result {
 final version which put all the magic tools together
 */
 
-func main() {
-	results := make(chan Result, 3)
-	responses := make([]Result, 0, 3)
-	rand.Seed(time.Now().UnixNano())
-	start := time.Now()
-
-	go func() { results <- First("golang", Web, Web1, Web2) }()
-	go func() { results <- First("golang", Image, Image1, Image2) }()
-	go func() { results <- First("golang", Video, Video1, Video2) }()
-	timeout := time.After(time.Millisecond * 80)
-	for i := 0; i < 3; i++ {
-		select {
-		case result := <-results:
-			responses = append(responses, result)
-		case <-timeout:
-			fmt.Println("Google search timeout")
-			return
-		}
-	}
-	fmt.Println(responses)
-	fmt.Println("time used on search:", time.Since(start))
-}
+//func main() {
+//	results := make(chan Result, 3)
+//	responses := make([]Result, 0, 3)
+//	rand.Seed(time.Now().UnixNano())
+//	start := time.Now()
+//
+//	go func() { results <- First("golang", Web, Web1, Web2) }()
+//	go func() { results <- First("golang", Image, Image1, Image2) }()
+//	go func() { results <- First("golang", Video, Video1, Video2) }()
+//	timeout := time.After(time.Millisecond * 80)
+//	for i := 0; i < 3; i++ {
+//		select {
+//		case result := <-results:
+//			responses = append(responses, result)
+//		case <-timeout:
+//			fmt.Println("Google search timeout")
+//			return
+//		}
+//	}
+//	fmt.Println(responses)
+//	fmt.Println("time used on search:", time.Since(start))
+//}

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -29,14 +28,14 @@ func sq(in <-chan int) <-chan int {
 	return out
 }
 
-func main() {
-	now := time.Now()
-	// Set up the pipeline.
-	c := gen(2, 3)
-	out := sq(c)
-
-	// Consume the output.
-	fmt.Println(<-out) // 4
-	fmt.Println(<-out) // 9
-	fmt.Println(time.Now().Sub(now).Milliseconds())
-}
+//func main() {
+//	now := time.Now()
+//	// Set up the pipeline.
+//	c := gen(2, 3)
+//	out := sq(c)
+//
+//	// Consume the output.
+//	fmt.Println(<-out) // 4
+//	fmt.Println(<-out) // 9
+//	fmt.Println(time.Now().Sub(now).Milliseconds())
+//}
