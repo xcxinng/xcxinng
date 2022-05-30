@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
 	"math/rand"
@@ -95,6 +96,24 @@ type Redis interface {
 	Close()
 }
 
+type redisKey struct {
+	baseCloser
+}
+
+func (r redisKey) IsFlowExist(s string) (bool, error) {
+	// key example: 192.168.1.1-{flow_data}
+	res, err := r.client.Exists(ctx, r.key(ovsHostIP, s)).Result()
+	if err != nil {
+		return false, err
+	}
+	if res == 1 {
+		r.client.Expire(ctx, r.key(ovsHostIP, s), time.Minute*2)
+		return true, nil
+	}
+	cmd := r.client.Set(ctx, r.key(ovsHostIP, s), 1, time.Minute*2)
+	return false, cmd.Err()
+}
+
 type baseCloser struct {
 	client *redis.Client
 }
@@ -103,6 +122,10 @@ func (m baseCloser) Close() {
 	if m.client != nil {
 		m.client.Close()
 	}
+}
+
+func (m baseCloser) key(ip, flow string) string {
+	return fmt.Sprintf("%s-%s", ip, flow)
 }
 
 type redisSet struct {
@@ -123,31 +146,47 @@ func (m redisSet) IsFlowExist(s string) (bool, error) {
 	return true, nil
 }
 
-func newMyRedis() Redis {
+type redisKind uint8
+
+const (
+	defaultKind redisKind = iota
+	customKind
+)
+
+func newMyRedis(k redisKind) Redis {
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: "123456", // no password set
 		DB:       0,        // use default DB
 	})
-	return &redisSet{baseCloser{client: rdb}}
+	switch k {
+	case customKind:
+		return &redisKey{baseCloser{client: rdb}}
+	default:
+		return &redisSet{baseCloser{client: rdb}}
+	}
 }
 
 var (
-	ctx = context.Background()
+	ctx           = context.Background()
+	redisKindFlag = flag.Int("redis_kind", 0, "redis kind")
+	keyExpireFlag = flag.Int("key_expire_minute", 2, "redis key expiration time in minute")
 )
 
 const (
 	ovsFlowKey = "ovs_flow_set"
+	ovsHostIP  = "192.168.10.1"
 )
 
 func main() {
+	flag.Parse()
 	flows, err := newOvsHost(30).GetFlows()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// init redis
-	redis := newMyRedis()
+	redis := newMyRedis(redisKind(*redisKindFlag))
 	defer redis.Close()
 
 	// init pg
