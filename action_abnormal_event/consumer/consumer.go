@@ -21,7 +21,7 @@
 //
 // The complete data flow is described in [data flow].
 //
-// [data flow]: ./self-monitor.drawio
+// [data flow]: ./data_flow.drawio
 package main
 
 import (
@@ -38,6 +38,8 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 	"xorm.io/xorm"
+
+	"awesomeGolang/action_abnormal_event/common"
 )
 
 var (
@@ -55,13 +57,6 @@ func init() {
 	}
 	pgClient = client
 }
-
-// abnormal event metric name lists.
-const (
-	unreachable = "network.event.ping.unreachable"
-	oidUnknown  = "network.event.oid.timeout"
-	oidTimeout  = "network.event.oid.unknown" // also mean "no such object"
-)
 
 const (
 	abnormalEventPrefix = "abnormalEvent"
@@ -82,20 +77,9 @@ func (d DeviceAbnormalEventRecord) TableName() string {
 	return "device_abnormal_event_record" // device_abnormal_event_record
 }
 
-// ConsumerMetric is exactly the same as Metric, ensure consumer can compile individually.
-type ConsumerMetric struct {
-	Endpoint    string      `json:"endpoint,omitempty"`
-	Metric      string      `json:"metric,omitempty"`
-	Value       interface{} `json:"value,omitempty"`
-	Step        int         `json:"step,omitempty"`
-	CounterType string      `json:"counter_type,omitempty"`
-	Tags        string      `json:"tags,omitempty"`
-	Timestamp   int64       `json:"timestamp,omitempty"`
-}
-
 func handleMessage(message *sarama.ConsumerMessage) {
 	logrus.Info("begin to handle message")
-	metricData := &ConsumerMetric{}
+	metricData := &common.Metric{}
 	err := json.Unmarshal(message.Value, metricData)
 	if err != nil {
 		logrus.Errorf("unmarshal message error:%v", err)
