@@ -86,7 +86,7 @@ gracefully, and the RPC should ideally be idempotent.
 
 # Summary
 
-![rpc](./rpc-tutorial.png)
+![rpc](rpc-tutorial.png)
 
 Our RPC will work like this:
 

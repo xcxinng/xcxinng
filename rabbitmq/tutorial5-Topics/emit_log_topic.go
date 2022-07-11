@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/streadway/amqp"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/streadway/amqp"
 )
 
 func onError(err error, msg string) {

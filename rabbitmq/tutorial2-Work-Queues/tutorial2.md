@@ -1,7 +1,7 @@
-#Reference   
-origin official page: https://www.rabbitmq.com/tutorials/tutorial-two-go.html   
+#Reference
+origin official page: https://www.rabbitmq.com/tutorials/tutorial-two-go.html
 
-#Communicating Model   
+#Communicating Model
 
 ![image info](rabbit.png)
 

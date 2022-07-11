@@ -68,7 +68,7 @@ RabbitMQ nodes will log its effective user's home directory location early on bo
 3. don't forget to restart rabbitmq-server to take effect!
 
 ### 2.2 Join Cluster
-![cluster_nodes](./cluster_nodes.png)
+![cluster_nodes](cluster_nodes.png)
 
 Let's make host147 and host148 join host146 cluster:
 ```shell

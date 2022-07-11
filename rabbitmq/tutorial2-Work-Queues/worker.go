@@ -2,9 +2,10 @@ package main
 
 import (
 	"bytes"
-	"github.com/streadway/amqp"
 	"log"
 	"time"
+
+	"github.com/streadway/amqp"
 )
 
 func onError(err error, msg string) {
