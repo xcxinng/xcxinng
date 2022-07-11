@@ -1,16 +1,13 @@
 # awesomeGolang
-A personal golang practicing code note and learning record lib.
+Prsonal golang practicing codebase.
 
-# Commits Specification
+# Commit Convention
 Commit messages of this project should comply with [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
-And here are some special commit types:
-- <mark>tutorial</mark>: coding follow the official tutorial
-- <mark>leetcode</mark>: leetcode algorithm stuffs
-- <mark>learn</mark>: for personal learning habit, whenever after finishing some tutorials, I'll try to apply them to some
+And special commit types:
+- tutorial: coding follow the official tutorial.
+- leetcode: leetcode algorithm stuffs.
+- learn: code for freestyle.
 practical scenes.
 
-# Coding Specification
-to be completed...
-
-# Project Layout
+# Project Glance
 refer to: [golang-standards](https://github.com/golang-standrads/project-layout)
