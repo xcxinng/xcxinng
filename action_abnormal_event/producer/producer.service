@@ -1,0 +1,17 @@
+[Unit]
+Description=A golang application produce abnormal event data to kafka.
+Wants=network-online.target
+
+
+[Service]
+Type=simple
+ExecStart=/apps/producer
+RemainAfterExit=no
+MemoryAccounting=true
+CPUAccounting=true
+MemoryMax=1G
+Restart=on-abnormal
+RestartSec=3s
+
+[Install]
+WantedBy=multi-user.target
