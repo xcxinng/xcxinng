@@ -1,4 +1,4 @@
-package main
+package leetcode
 
 import (
 	"fmt"
@@ -758,9 +758,4 @@ func mathPow(bit int) int {
 
 func PrdAMultiEmptyError(names ...string) error {
 	return &ProductAError{prd: "Apple", message: fmt.Sprintf("one of them is empty: %v", names)}
-}
-
-func main() {
-	fmt.Println(PrdAError("id empty", "ProductSession"))
-	fmt.Println(PrdAMultiEmptyError("id", "region", "series"))
 }
