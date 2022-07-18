@@ -34,17 +34,19 @@ Explanation: The only possible triplet sums up to 0.
 
 */
 
-// threeSum returns a 3-tuple slice of which each element is a slice
-// with three numbers that sum up equal to 0. In this solution, it
-// firstly sorts nums, then chooses elements in a "two-pointer" way.
+// method_1: sort + "two pointer"
 //
-// For example:
-//  nums: [-1,0,1,2,-1,-4]
-//  result: [[-1,-1,2],[-1,0,1]]
+// Solution steps (Based on the traditional triple for-loop solution):
 //
-// Be cautious with two special cases: [-2, 0, 0, 2, 2], [0, 0, 0, 0].
+//  1. As the algorithm required, tuples should be unique, so tuple
+//  (a,b,c) must meet the requirement of: a<=b<=c, which means we
+//  have to sort nums.
 //
-// [combination]: https://www.math.net/combination
+//  2. In the meanwhile, in each iteration, should examine if
+//  there are the same num after the current num, if it does
+//  that it should be skipped as well.
+//
+//
 func threeSum(nums []int) (result [][]int) {
 	if len(nums) < 3 {
 		return
@@ -56,6 +58,7 @@ func threeSum(nums []int) (result [][]int) {
 		if nums[i] > 0 {
 			return
 		}
+		// skip nums that is the same as the before.
 		if i > 0 && nums[i] == nums[i-1] {
 			continue
 		}
@@ -67,16 +70,18 @@ func threeSum(nums []int) (result [][]int) {
 			case sum == 0:
 				result = append(result, []int{nums[i], nums[left], nums[right]})
 				for left < right && nums[left] == nums[left+1] {
+					// ignore the duplicated neighboring nums in the left
 					left++
 				}
 				for left < right && nums[right] == nums[right-1] {
+					// ignore the duplicated neighboring nums in the right
 					right--
 				}
 				left++
 				right--
-			case sum > 0:
+			case sum > 0: // means that the num in the right is too large
 				right--
-			case sum < 0:
+			case sum < 0: // means that the num in the left is too small
 				left++
 			}
 		}
@@ -88,7 +93,7 @@ func threeSum(nums []int) (result [][]int) {
 Given a string s containing just the characters '(', ')', '{', '}', '[' and ']',
 determine if the input string is valid.
 
-An input string is valid if:
+An input string is valid only if:
 
 - Open brackets must be closed by the same type of brackets.
 - Open brackets must be closed in the correct order.
@@ -106,6 +111,7 @@ Input: s = "(]"
 Output: false
 
 */
+// Solution 1 using stack structure to solve efficiently.
 func isValid(s string) bool {
 	if len(s)%2 != 0 || len(s) == 0 {
 		return false
@@ -114,15 +120,21 @@ func isValid(s string) bool {
 	var mapping = map[string]string{"(": ")", "{": "}", "[": "]"}
 	stack := make([]string, 0, len(s)/2)
 	for _, c := range s {
-		if _, exist := mapping[string(c)]; exist {
+		if _, exist := mapping[string(c)]; exist { // is an open bucket
 			stack = append(stack, string(c))
 			continue
 		}
-		if len(stack) == 0 {
+		if len(stack) == 0 { // invalid string e.g. ")("
 			return false
 		}
+
+		// In most cases, we use slice to replace with stack in golang,
+		// cuz golang does not have a proper support for stack.
+		//
+		// 2 lines below works like: stack.Pop()
 		left := stack[len(stack)-1]
 		stack = stack[:len(stack)-1]
+
 		if mapping[left] != string(c) {
 			return false
 		}
@@ -130,7 +142,7 @@ func isValid(s string) bool {
 	return len(stack) == 0
 }
 
-// solution2
+// Solution 2 woks in an inefficient way.
 func isValid2(s string) bool {
 	for strings.Contains(s, "{}") || strings.Contains(s, "[]") || strings.Contains(s, "()") {
 		s = strings.Replace(s, "{}", "", 1)
@@ -156,11 +168,13 @@ func isSymmetric(root *TreeNode) bool {
 // check works in recursion way, It judges whether p is symmetric with p.
 // Source code is copied from [symmetric binary tree].
 //
-// check move p and q simultaneously to traverse the corresponding tree.
-// Each moving direction is on the opposite, e.g. every time p move to
-// the right subtree, p move to its left subtree. In each recursion,
-// check will check value of the current node of p or q, if both are
-// equal, it will continue,  otherwise, they are not symmetric trees.
+// check moves p and q simultaneously to traverse the corresponding tree.
+// Each moving direction is on the opposite, respectively, e.g. every
+// time p move to the right subtree, p move to its left subtree.
+//
+// In each recursion, check will check value of the current node of
+// p or q, if both are equal, it will continue,  otherwise, they are not
+// symmetric trees.
 //
 // Q1: What's a symmetric tree?
 // A1: A tree is symmetric if it's left subtree is symmetric with its
@@ -185,18 +199,18 @@ func check(p, q *TreeNode) bool {
 		return false
 	}
 
-	// check values and move to the opposite direction.
+	// check values and move them to the opposite direction,respectively.
 	return p.Val == q.Val && check(p.Left, q.Right) && check(p.Right, q.Left)
 }
 
-// isSymmetricIteration solve the same problem as isSymmetric.
-// Unlike isSymmetric, isSymmetricIteration works in iteration way.
+// isSymmetric2 solve the same problem as isSymmetric.
+// Unlike isSymmetric, isSymmetric2 works in iteration way.
 //
 // It uses a queue initialized with 2 elements(both are root nodes),
 // and in each iteration, pops 2 elements out of the queue, and compares
 // values. And in the following, put respectively left and right sub-node
 // in an opposite order into the queue.
-func isSymmetricIteration(root *TreeNode) bool {
+func isSymmetric2(root *TreeNode) bool {
 	u, v := root, root
 	var q []*TreeNode
 	q = append(q, u)

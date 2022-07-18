@@ -2,6 +2,7 @@ package shopee
 
 import "testing"
 
+// two special cases: [-2, 0, 0, 2, 2], [0, 0, 0, 0].
 func TestThreeSum(t *testing.T) {
 	t.Log(threeSum([]int{-1, 0, 1, 2, -1, -4}))
 	// output:
