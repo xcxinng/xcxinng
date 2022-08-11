@@ -60,7 +60,7 @@ func addTwoNumbers(l1, l2 *ListNode) (head *ListNode) {
 //
 // Description: 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
 //
-// Tips：
+// Constraints：
 // 0 <= s.length <= 5 * 104
 // s 由英文字母、数字、符号和空格组成
 //
@@ -95,7 +95,7 @@ func lengthOfLongestSubstring(s string) int {
 // Description: 给定两个大小分别为 m 和 n 的正序（从小到大）数组nums1 和nums2。
 // 请你找出并返回这两个正序数组的 中位数 。 算法的时间复杂度应该为 O(log (m+n)) 。
 //
-// Tips：
+// Constraints：
 // nums1.length == m
 // nums2.length == n
 // 0 <= m <= 1000
@@ -332,7 +332,7 @@ func maxArea(height []int) int {
 //
 // Description: 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
 //
-// Tips:
+// Constraints:
 // 链表中结点的数目为 sz
 // 1 <= sz <= 30
 // 0 <= Node.val <= 100
@@ -400,7 +400,7 @@ func removeNthFromEnd2(head *ListNode, n int) *ListNode {
 // 左括号必须用相同类型的右括号闭合。
 // 左括号必须以正确的顺序闭合。
 //
-// Tips:
+// Constraints:
 // 1 <= s.length <= 104
 // s 仅由括号 '()[]{}' 组成
 //
@@ -437,44 +437,249 @@ func isValid(s string) bool {
 //
 // Description: 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
 //
-// Tips
+// Constraints:
 // 两个链表的节点数目范围是 [0, 50]
 // -100 <= Node.val <= 100
 // l1 和 l2 均按 非递减顺序 排列
 //
 // Tags: #double pointers #dummy ListNode
 //
+// Time complexity: O(n)
+// Space complexity: O(1)
+//
 func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 	// put an additional dummy node to the head, in case nil pointer deference
-	var head = &ListNode{}
-	tail := head
+	var dummy = &ListNode{}
+	tail := dummy
 	for list2 != nil && list1 != nil {
-		var value int
 		if list1.Val <= list2.Val {
-			value = list1.Val
+			tail.Next = list1
 			list1 = list1.Next
 		} else {
-			value = list2.Val
+			tail.Next = list2
 			list2 = list2.Next
 		}
-		node := &ListNode{Val: value}
-		if head == nil {
-			head = node
-			tail = head
-		} else {
-			tail.Next = node
-			tail = tail.Next
-		}
+		tail = tail.Next
 	}
-	for list1 != nil {
+	if list1 != nil {
 		tail.Next = list1
-		tail = tail.Next
-		list1 = list1.Next
 	}
-	for list2 != nil {
+	if list2 != nil {
 		tail.Next = list2
-		tail = tail.Next
-		list2 = list2.Next
 	}
-	return head.Next
+	return dummy.Next
+}
+
+// In Chinese: 括号生成
+// Difficulty: medium
+//
+// Description: 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+//
+// Constraints
+// 1 <= n <= 8
+//
+// Tags: #backtracking #dynamic programming
+//
+func generateParenthesis(n int) []string {
+	// I can't do it!
+	return nil
+}
+
+type Location struct {
+	Value int
+	Loc   int
+}
+
+// In Chinese: 合并K个升序链表
+// Difficulty: medium
+//
+// Description: 给你一个链表数组，每个链表都已经按升序排列。请你将所有链表合并到一个升序链表中，返回合并后的链表。
+//
+// Constraints:
+// k == lists.length
+// 0 <= k <= 10^4
+// 0 <= lists[i].length <= 500
+// -10^4 <= lists[i][j] <= 10^4
+// lists[i] 按 升序 排列
+// lists[i].length 的总和不超过 10^4
+//
+// I can't believe I resolved it without referring to any official or comment explanations!
+func mergeKLists(lists []*ListNode) *ListNode {
+	var dummy = &ListNode{}
+	var tail = dummy
+	for {
+		var minValue *Location
+		for i := 0; i < len(lists); i++ {
+			if lists[i] == nil {
+				continue
+			}
+			if minValue == nil {
+				minValue = &Location{Value: lists[i].Val, Loc: i}
+			} else {
+				if lists[i].Val < minValue.Value {
+					minValue.Value = lists[i].Val
+					minValue.Loc = i
+				}
+			}
+		}
+		if minValue == nil {
+			break
+		}
+
+		node := &ListNode{Val: lists[minValue.Loc].Val}
+		lists[minValue.Loc] = lists[minValue.Loc].Next
+		tail.Next = node
+		tail = tail.Next
+	}
+	return dummy.Next
+}
+
+// In Chinese: 下一个排列
+// Difficulty: medium
+//
+// Description: 整数数组的排列就是将其所有成员以序列或线性顺序排列。
+// 整数数组的下一个排列是指其整数的下一个字典序更大的排列。更正式地，
+// 如果数组的所有排列根据其字典顺序从小到大排列在一个容器中，那么数组的
+// 下一个排列就是在这个有序容器中排在它后面的那个排列。如果不存在下一个更大的排列，
+// 那么这个数组必须重排为字典序最小的排列（即，其元素按升序排列）。
+//
+// 例如，arr = [1,2,3] 的下一个排列是 [1,3,2] 。
+// 类似地，arr = [2,3,1] 的下一个排列是 [3,1,2] 。
+// 而 arr = [3,2,1] 的下一个排列是 [1,2,3] ，因为 [3,2,1] 不存在一个字典序更大的排列。
+//
+// NOTE:
+//  - 给你一个整数数组 nums ，找出 nums 的下一个排列。
+//  - 必须 原地 修改，只允许使用额外常数空间。
+//
+// Constraints:
+// 1 <= nums.length <= 100
+// 0 <= nums[i] <= 100
+//
+// What a stupid question!
+func nextPermutation(nums []int) {
+	// I can't do it! shit!
+}
+
+// In Chinese: 最长有效括号
+// Difficulty: difficult
+//
+// Description: Given a string containing just the characters '(' and ')',
+// find the length of the longest valid (well-formed) parentheses substring.
+//
+// Example:
+// Input: s = ")()())"
+// Output: 4
+// Explanation: The longest valid parentheses substring is "()()".
+//
+// Constraints:
+// 0 <= s.length <= 3 * 104
+// s[i] is '(', or ')'.
+//
+// What a stupid question! shit
+func longestValidParentheses(s string) int {
+	return 0
+}
+
+// In Chinese: 在排序数组中查找元素的第一个和最后一个位置
+// Difficulty: medium
+//
+// Description: Given an array of integers nums sorted in non-decreasing order,
+// find the starting and ending position of a given target value.
+// If target is not found in the array, return [-1, -1].
+// You must write an algorithm with O(log n) runtime complexity.
+//
+// Example:
+// Input: nums = [5,7,7,8,8,10], target = 8
+// Output: [3,4]
+//
+// Constraints:
+// 0 <= nums.length <= 105
+// -109 <= nums[i] <= 109
+// nums is a non-decreasing array.
+// -109 <= target <= 109
+//
+// What a stupid question! shit!
+func searchRange(nums []int, target int) []int {
+	return nil
+}
+
+// In Chinese: 组合总和
+// Difficulty: medium
+//
+// Description: Given an array of distinct integers candidates and
+// a target integer target, return a list of all unique combinations
+// of candidates where the chosen numbers sum to target.
+// You may return the combinations in any order.
+//
+// The same number may be chosen from candidates an unlimited number of times.
+// Two combinations are unique if the frequency of at least one of the
+// chosen numbers is different.
+//
+// It is guaranteed that the number of unique combinations that sum up
+// to target is less than 150 combinations for the given input.
+//
+// Example:
+// Input: candidates = [2,3,6,7], target = 7
+// Output: [[2,2,3],[7]]
+//
+// Explanation:
+// 2 and 3 are candidates, and 2 + 2 + 3 = 7. Note that 2 can be used multiple times.
+// 7 is a candidate, and 7 = 7.
+// These are the only two combinations.
+//
+// Constraints:
+// 1 <= candidates.length <= 30
+// 1 <= candidates[i] <= 200
+// All elements of candidates are distinct.
+// 1 <= target <= 500
+//
+// What a stupid question! shit!
+func combinationSum(candidates []int, target int) [][]int {
+	return nil
+}
+
+// [Cautions]
+// TODO: Some of top100 algorithms are omit temporarily here. Please accomplish them in time.
+// [Cautions]
+
+// permuteResult stores the outcome of permute.
+// It should be putting into a field of a structure instead of a global variable,
+// why doing like this is because of leetcode' restriction.
+var permuteResult [][]int
+
+// backTrackingPermute generates all the possible permutations for nums.
+//
+// It's similar to generateParenthesis, letterCombinations and so on.
+func backTrackingPermute(target int, first int, output []int) {
+	if first == target {
+		permuteResult = append(permuteResult, output)
+	}
+	for i := first; i < target; i++ {
+		output[first], output[i] = output[i], output[first]
+		backTrackingPermute(target, first+1, output)
+		output[first], output[i] = output[i], output[first]
+	}
+}
+
+// In Chinese: 全排列
+// Difficulty: medium
+//
+// Description: Given an array nums of distinct integers, return all the
+// possible permutations. You can return the answer in any order.
+//
+// Example:
+// Input: nums = [1,2,3]
+// Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+//
+// Constraints:
+// 1 <= nums.length <= 6
+// -10 <= nums[i] <= 10
+// All the integers of nums are unique.
+//
+// Tags: #backtracking
+func permute(nums []int) [][]int {
+	// I can't figure it out, so sad -_-|.
+	permuteResult = make([][]int, 0) // ensure result is clean
+	backTrackingPermute(len(nums), 0, nums)
+	return permuteResult
 }
