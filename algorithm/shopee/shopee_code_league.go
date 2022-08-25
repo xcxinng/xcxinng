@@ -152,6 +152,23 @@ func isValid2(s string) bool {
 	return s == ""
 }
 
+/* Symmetric Tree
+
+Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+Example 1:
+Input: root = [1,2,2,3,4,4,3]
+Output: true
+
+Example 2:
+Input: root = [1,2,2,null,3,null,3]
+Output: false
+
+Constraints:
+The number of nodes in the tree is in the range [1, 1000].
+-100 <= Node.val <= 100
+*/
+
 // TreeNode represents a binary tree structure.
 type TreeNode struct {
 	Val   int
@@ -166,7 +183,6 @@ func isSymmetric(root *TreeNode) bool {
 }
 
 // check works in recursion way, It judges whether p is symmetric with p.
-// Source code is copied from [symmetric binary tree].
 //
 // check moves p and q simultaneously to traverse the corresponding tree.
 // Each moving direction is on the opposite, respectively, e.g. every
@@ -187,7 +203,6 @@ func isSymmetric(root *TreeNode) bool {
 //  1. values of root node must be the same
 //  2. each value of its right subtree is mirror equal to its left subtree.
 //
-// [symmetric binary tree]: https://leetcode.cn/problems/symmetric-tree/solution/dui-cheng-er-cha-shu-by-leetcode-solution/
 func check(p, q *TreeNode) bool {
 	// both values are nil
 	if p == nil && q == nil {
@@ -237,4 +252,80 @@ func isSymmetric2(root *TreeNode) bool {
 		q = append(q, v.Left)
 	}
 	return true
+}
+
+/* Rotate Image
+
+You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
+You have to rotate the image in-place, which means you have to modify the input 2D matrix directly.
+DO NOT allocate another 2D matrix and do the rotation.
+
+Example 1:
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [[7,4,1],[8,5,2],[9,6,3]]
+
+Example 2:
+Input: matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
+Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+
+Constraints:
+n == matrix.length == matrix[i].length
+1 <= n <= 20
+-1000 <= matrix[i][j] <= 1000
+*/
+
+// rotate will rotate a matrix by 90 degrees by a extra matrix,
+// it has not meet the requirement yet.
+//
+// TODO: rotates matrix in-place.
+func rotate(matrix [][]int) {
+	if len(matrix) == 0 {
+		return
+	}
+
+	// init tmp
+	mLen := len(matrix)
+	var tmp = make([][]int, mLen)
+	subLen := len(matrix[0])
+	for i := 0; i < mLen; i++ {
+		tmp[i] = make([]int, subLen)
+	}
+
+	for i := len(matrix) - 1; i >= 0; i-- {
+		actualIndex := len(matrix) - 1 - i
+		for j := 0; j < len(matrix[i]); j++ {
+			tmp[j][actualIndex] = matrix[i][j]
+		}
+	}
+	copy(matrix, tmp)
+}
+
+/* Binary Tree Level Order Traversal
+
+Given the root of a binary tree, return the level order traversal of
+its nodes' values. (i.e., from left to right, level by level).
+
+Example 1:
+Input: root = [3,9,20,null,null,15,7]
+Output: [[3],[9,20],[15,7]]
+
+Example 2:
+Input: root = [1]
+Output: [[1]]
+
+Example 3:
+Input: root = []
+Output: []
+
+Constraints:
+The number of nodes in the tree is in the range [0, 2000].
+-1000 <= Node.val <= 1000
+*/
+func traverseTree(root *TreeNode) {
+	if root == nil {
+		return
+	}
+	println(root.Val)
+	traverseTree(root.Left)
+	traverseTree(root.Right)
 }
