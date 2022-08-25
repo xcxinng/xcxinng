@@ -3,6 +3,7 @@ package algorithm
 import (
 	"fmt"
 	"math"
+	"math/big"
 	"sort"
 )
 
@@ -17,11 +18,6 @@ func twoSum(nums []int, target int) []int {
 		}
 	}
 	return nil
-}
-
-type ListNode struct {
-	Val  int
-	Next *ListNode
 }
 
 // In Chinese: 两数相加
@@ -60,7 +56,7 @@ func addTwoNumbers(l1, l2 *ListNode) (head *ListNode) {
 //
 // Description: 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
 //
-// Tips：
+// Constraints：
 // 0 <= s.length <= 5 * 104
 // s 由英文字母、数字、符号和空格组成
 //
@@ -95,7 +91,7 @@ func lengthOfLongestSubstring(s string) int {
 // Description: 给定两个大小分别为 m 和 n 的正序（从小到大）数组nums1 和nums2。
 // 请你找出并返回这两个正序数组的 中位数 。 算法的时间复杂度应该为 O(log (m+n)) 。
 //
-// Tips：
+// Constraints：
 // nums1.length == m
 // nums2.length == n
 // 0 <= m <= 1000
@@ -332,7 +328,7 @@ func maxArea(height []int) int {
 //
 // Description: 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
 //
-// Tips:
+// Constraints:
 // 链表中结点的数目为 sz
 // 1 <= sz <= 30
 // 0 <= Node.val <= 100
@@ -400,7 +396,7 @@ func removeNthFromEnd2(head *ListNode, n int) *ListNode {
 // 左括号必须用相同类型的右括号闭合。
 // 左括号必须以正确的顺序闭合。
 //
-// Tips:
+// Constraints:
 // 1 <= s.length <= 104
 // s 仅由括号 '()[]{}' 组成
 //
@@ -435,46 +431,627 @@ func isValid(s string) bool {
 // In Chinese: 合并两个有序链表
 // Difficulty: easy
 //
-// Description: 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
+// Description: 将两个升序链表合并为一个新的 升序 链表并返回。
+// 新链表是通过拼接给定的两个链表的所有节点组成的。
 //
-// Tips
+// Constraints:
 // 两个链表的节点数目范围是 [0, 50]
 // -100 <= Node.val <= 100
 // l1 和 l2 均按 非递减顺序 排列
 //
 // Tags: #double pointers #dummy ListNode
 //
+// Time complexity: O(n)
+// Space complexity: O(1)
+//
 func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 	// put an additional dummy node to the head, in case nil pointer deference
-	var head = &ListNode{}
-	tail := head
+	var dummy = &ListNode{}
+	tail := dummy
 	for list2 != nil && list1 != nil {
-		var value int
 		if list1.Val <= list2.Val {
-			value = list1.Val
+			tail.Next = list1
 			list1 = list1.Next
 		} else {
-			value = list2.Val
+			tail.Next = list2
 			list2 = list2.Next
 		}
-		node := &ListNode{Val: value}
-		if head == nil {
-			head = node
-			tail = head
-		} else {
-			tail.Next = node
-			tail = tail.Next
+		tail = tail.Next
+	}
+	if list1 != nil {
+		tail.Next = list1
+	}
+	if list2 != nil {
+		tail.Next = list2
+	}
+	return dummy.Next
+}
+
+// In Chinese: 括号生成
+// Difficulty: medium
+//
+// Description: 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+//
+// Constraints
+// 1 <= n <= 8
+//
+// Tags: #backtracking #dynamic programming
+//
+func generateParenthesis(n int) []string {
+	// I can't do it!
+	return nil
+}
+
+type Location struct {
+	Value int
+	Loc   int
+}
+
+// In Chinese: 合并K个升序链表
+// Difficulty: medium
+//
+// Description: 给你一个链表数组，每个链表都已经按升序排列。
+// 请你将所有链表合并到一个升序链表中，返回合并后的链表。
+//
+// Constraints:
+// k == lists.length
+// 0 <= k <= 10^4
+// 0 <= lists[i].length <= 500
+// -10^4 <= lists[i][j] <= 10^4
+// lists[i] 按 升序 排列
+// lists[i].length 的总和不超过 10^4
+//
+// I can't believe I resolved it without referring
+// to any official or comment explanations!
+//
+// TODO: To try some other resolutions.
+func mergeKLists(lists []*ListNode) *ListNode {
+	var dummy = &ListNode{}
+	var tail = dummy
+	for {
+		var minValue *Location
+		for i := 0; i < len(lists); i++ {
+			if lists[i] == nil {
+				continue
+			}
+			if minValue == nil {
+				minValue = &Location{Value: lists[i].Val, Loc: i}
+			} else {
+				if lists[i].Val < minValue.Value {
+					minValue.Value = lists[i].Val
+					minValue.Loc = i
+				}
+			}
+		}
+		if minValue == nil {
+			break
+		}
+
+		node := &ListNode{Val: lists[minValue.Loc].Val}
+		lists[minValue.Loc] = lists[minValue.Loc].Next
+		tail.Next = node
+		tail = tail.Next
+	}
+	return dummy.Next
+}
+
+// In Chinese: 下一个排列
+// Difficulty: medium
+//
+// Description: 整数数组的排列就是将其所有成员以序列或线性顺序排列。
+// 整数数组的下一个排列是指其整数的下一个字典序更大的排列。更正式地，
+// 如果数组的所有排列根据其字典顺序从小到大排列在一个容器中，那么数组的
+// 下一个排列就是在这个有序容器中排在它后面的那个排列。如果不存在下一个更大的排列，
+// 那么这个数组必须重排为字典序最小的排列（即，其元素按升序排列）。
+//
+// 例如，arr = [1,2,3] 的下一个排列是 [1,3,2] 。
+// 类似地，arr = [2,3,1] 的下一个排列是 [3,1,2] 。
+// 而 arr = [3,2,1] 的下一个排列是 [1,2,3] ，因为 [3,2,1] 不存在一个字典序更大的排列。
+//
+// NOTE:
+//  - 给你一个整数数组 nums ，找出 nums 的下一个排列。
+//  - 必须 原地 修改，只允许使用额外常数空间。
+//
+// Constraints:
+// 1 <= nums.length <= 100
+// 0 <= nums[i] <= 100
+//
+// What a stupid question!
+func nextPermutation(nums []int) {
+	// I can't do it! shit!
+}
+
+// In Chinese: 最长有效括号
+// Difficulty: difficult
+//
+// Description: Given a string containing just the characters '(' and ')',
+// find the length of the longest valid (well-formed) parentheses substring.
+//
+// Example:
+// Input: s = ")()())"
+// Output: 4
+// Explanation: The longest valid parentheses substring is "()()".
+//
+// Constraints:
+// 0 <= s.length <= 3 * 104
+// s[i] is '(', or ')'.
+//
+// What a stupid question! shit
+func longestValidParentheses(s string) int {
+	return 0
+}
+
+// In Chinese: 在排序数组中查找元素的第一个和最后一个位置
+// Difficulty: medium
+//
+// Description: Given an array of integers nums sorted in non-decreasing order,
+// find the starting and ending position of a given target value.
+// If target is not found in the array, return [-1, -1].
+// You must write an algorithm with O(log n) runtime complexity.
+//
+// Example:
+// Input: nums = [5,7,7,8,8,10], target = 8
+// Output: [3,4]
+//
+// Constraints:
+// 0 <= nums.length <= 105
+// -109 <= nums[i] <= 109
+// nums is a non-decreasing array.
+// -109 <= target <= 109
+//
+// What a stupid question! shit!
+func searchRange(nums []int, target int) []int {
+	return nil
+}
+
+// In Chinese: 组合总和
+// Difficulty: medium
+//
+// Description: Given an array of distinct integers candidates and
+// a target integer target, return a list of all unique combinations
+// of candidates where the chosen numbers sum to target.
+// You may return the combinations in any order.
+//
+// The same number may be chosen from candidates an unlimited number of times.
+// Two combinations are unique if the frequency of at least one of the
+// chosen numbers is different.
+//
+// It is guaranteed that the number of unique combinations that sum up
+// to target is less than 150 combinations for the given input.
+//
+// Example:
+// Input: candidates = [2,3,6,7], target = 7
+// Output: [[2,2,3],[7]]
+//
+// Explanation:
+// 2 and 3 are candidates, and 2 + 2 + 3 = 7. Note that 2 can be used multiple times.
+// 7 is a candidate, and 7 = 7.
+// These are the only two combinations.
+//
+// Constraints:
+// 1 <= candidates.length <= 30
+// 1 <= candidates[i] <= 200
+// All elements of candidates are distinct.
+// 1 <= target <= 500
+//
+// What a stupid question! shit!
+func combinationSum(candidates []int, target int) [][]int {
+	return nil
+}
+
+// [Cautions]
+// TODO: Some of top100 algorithms are omit temporarily here. Please accomplish them in time.
+// [Cautions]
+
+// permuteResult stores the outcome of permute.
+// It should be putting into a field of a structure instead of a global variable,
+// why doing like this is because of leetcode' restriction.
+var permuteResult [][]int
+
+// backTrackingPermute generates all the possible permutations for nums.
+//
+// It's similar to generateParenthesis, letterCombinations and so on.
+func backTrackingPermute(target int, first int, output []int) {
+	if first == target {
+		permuteResult = append(permuteResult, output)
+	}
+	for i := first; i < target; i++ {
+		output[first], output[i] = output[i], output[first]
+		backTrackingPermute(target, first+1, output)
+		output[first], output[i] = output[i], output[first]
+	}
+}
+
+// In Chinese: 全排列
+// Difficulty: medium
+//
+// Description: Given an array nums of distinct integers, return all the
+// possible permutations. You can return the answer in any order.
+//
+// Example:
+// Input: nums = [1,2,3]
+// Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+//
+// Constraints:
+// 1 <= nums.length <= 6
+// -10 <= nums[i] <= 10
+// All the integers of nums are unique.
+//
+// Tags: #backtracking
+func permute(nums []int) [][]int {
+	// Oh god, I totally get confused  -_-|.
+	//
+	// The reason I don't empty it is that it's so difficult
+	// that I even can't understand it, so I keep the code here
+	// for future review.
+	permuteResult = make([][]int, 0)
+	backTrackingPermute(len(nums), 0, nums)
+	return permuteResult
+}
+
+// #48
+// In Chinese:旋转图像
+// Difficulty: medium
+//
+// Description: You are given an "n x n" 2D matrix representing
+// an image, rotate the image by 90 degrees (clockwise).
+//
+// You have to rotate the image in-place, which means you have
+// to modify the input 2D matrix directly.
+//
+// DO NOT allocate another 2D matrix and do the rotation.
+//
+// Example:
+// Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+// Output: [[7,4,1],[8,5,2],[9,6,3]]
+//
+// Constraints:
+// n == matrix.length == matrix[i].length
+// 1 <= n <= 20
+// -1000 <= matrix[i][j] <= 1000
+//
+// Tags: #understood #another resolutions
+//
+// Hint: Try to resolve it with an assistant slice first,
+// and sum up the formula you had found out, then kill this
+// stupid question.
+func rotate(matrix [][]int) {
+	// I have understood this algorithm, in case I forget,
+	// just keep it empty for the next review.
+	return
+}
+
+// #49
+// In Chinese:字母异位词分组
+// Difficulty: medium
+//
+// Description: Given an array of strings strs, group the anagrams together.
+// You can return the answer in any order.
+//
+// An Anagram is a word or phrase formed by rearranging the letters of a
+// different word or phrase, typically using all the original letters exactly once.
+//
+//
+// Example:
+// Input: strs = ["eat","tea","tan","ate","nat","bat"]
+// Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+//
+// Constraints:
+// 1 <= strs.length <= 104
+// 0 <= strs[i].length <= 100
+// strs[i] consists of lowercase English letters.
+//
+// Hint: byte slice, order
+func groupAnagrams(strs []string) [][]string {
+	// Oh god, I can't resolve this.
+	return nil
+}
+
+// #53
+// In Chinese:最大子数组和
+// Difficulty: medium
+//
+// Description: Given an integer array nums, find the contiguous
+// subarray (containing at least one number) which has the largest
+// sum and return its sum.
+//
+// A subarray is a contiguous part of an array.
+//
+// Example:
+// Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+// Output: 6
+// Explanation: [4,-1,2,1] has the largest sum = 6.
+//
+// Constraints:
+// 1 <= nums.length <= 105
+// -104 <= nums[i] <= 104
+//
+// Tags: #dynamic programming #dynamic array
+func maxSubArray(nums []int) int {
+	// Oh god, I can't resolve this.
+	// I still get confused after reading the explanation.
+	return 0
+}
+
+// #55
+// In Chinese: 跳跃游戏
+// Difficulty: medium
+//
+// Description: You are given an integer array nums.
+// You are initially positioned at the array's first index,
+// and each element in the array represents your maximum jump
+// length at that position.
+//
+// Return true if you can reach the last index, or false otherwise.
+//
+// Example:
+// Input: nums = [2,3,1,1,4]
+// Output: true
+// Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+//
+// Constraints:
+// 1 <= nums.length <= 104
+// 0 <= nums[i] <= 105
+//
+// Solving Strategy:
+//  - Dont complicate it!
+//  - It's all about the index computation stuff
+//
+func canJump(nums []int) bool {
+	var longMost = nums[0]
+	for i := 1; i < len(nums); i++ {
+		if i > longMost {
+			return false
+		}
+		longMost = max(longMost, i+nums[i])
+		if longMost >= len(nums) {
+			return true
 		}
 	}
-	for list1 != nil {
-		tail.Next = list1
-		tail = tail.Next
-		list1 = list1.Next
+	return true
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
 	}
-	for list2 != nil {
-		tail.Next = list2
-		tail = tail.Next
-		list2 = list2.Next
+	return b
+}
+
+// #56
+// In Chinese: 合并区间
+// Difficulty: medium
+//
+//
+// Description: Given an array of intervals where intervals[i] = [starti, endi],
+// merge all overlapping intervals, and return an array of the non-overlapping
+// intervals that cover all the intervals in the input.
+//
+//
+// Example:
+// Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+// Output: [[1,6],[8,10],[15,18]]
+// Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
+//
+//
+// Tags: mathematics
+func merge(intervals [][]int) (result [][]int) {
+	if len(intervals) == 0 {
+		return
 	}
-	return head.Next
+
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+	result = make([][]int, 0, len(intervals))
+	result = append(result, intervals[0])
+	iOR := 0
+
+	for i := 1; i < len(intervals); i++ {
+		if intersects(result[iOR], intervals[i]) {
+			result[iOR][1] = max(result[iOR][1], intervals[i][1])
+		} else {
+			result = append(result, intervals[i])
+			iOR++
+		}
+	}
+	return
+}
+
+func intersects(a, b []int) bool {
+	if a[0] <= b[0] && b[0] <= a[1] {
+		return true
+	}
+	return false
+}
+
+// #57
+// In Chinese: 插入区间
+// Difficulty: medium
+//
+// Description: You are given an array of non-overlapping intervals
+// where intervals[i] = [starti, endi] represent the start and the end of
+// the ith interval and intervals is sorted in ascending order by starti.
+// You are also given an interval newInterval = [start, end] that represents
+// the start and end of another interval.
+//
+// Insert newInterval into intervals such that intervals is still sorted in
+// ascending order by starti and intervals still does not have any overlapping
+// intervals (merge overlapping intervals if necessary).
+//
+// Return intervals after the insertion.
+//
+// Constraints:
+// intervals is sorted by starti in ascending order.
+//
+// Example:
+// Input: intervals = [[1,3],[6,9]], newInterval = [2,5]
+// Output: [[1,5],[6,9]]
+//
+// Tags: mathematics
+func insert(intervals [][]int, newInterval []int) [][]int {
+	if len(intervals) == 0 {
+		return [][]int{newInterval}
+	}
+
+	intervals = append(intervals, newInterval)
+	return intervals
+}
+
+// #62
+// In Chinese: 不同路径
+// Difficulty: medium
+//
+// There is a robot on an [m x n] grid. The robot is initially located at
+// the top-left corner (i.e., grid[0][0]). The robot tries to move to the
+// bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move
+// either down or right at any point in time.
+//
+// Given the two integers m and n, return the number of possible unique paths
+// that the robot can take to reach the bottom-right corner.
+//
+// The test cases are generated so that the answer will be less than or equal to 2 * 109.
+//
+// Examples:
+// Input: m = 3, n = 7
+// Output: 28
+//
+/*
+从左上角到右下角的过程中，我们需要移动m+n−2次，其中有 m−1 次向下移动,n-1次向右移动。
+总路径数等从m+n-2次移动中选择m-1次向下移动的方案数:
+Cm-1          m+n-1         (m+n-2)(m+n-3)...n           (m+n-2)!
+        =  (--------)  =   --------------------- =     -------------
+Cm+n-2        m-1               (m-1)!                  (m-1)!(n-1)!
+*/
+func uniquePaths(m, n int) int {
+	// what the heck is this question!?
+	// R U serious??
+	return int(new(big.Int).Binomial(int64(m+n-2), int64(n-1)).Int64())
+}
+
+// #64
+// In Chinese: 最小路径和
+// Difficulty: medium
+//
+// Description:
+// Given a m x n grid filled with non-negative numbers,
+// find a path from top left to bottom right, which minimizes
+// the sum of all numbers along its path.
+// Note: You can only move either down or right at any point in time.
+//
+// Examples:
+// Input: grid = [[1,3,1],[1,5,1],[4,2,1]]
+// Output: 7
+// Explanation: Because the path 1 → 3 → 1 → 1 → 1 minimizes the sum.
+//
+// Tags: #dynamic programming
+func minPathSum(grid [][]int) int {
+	return 0
+}
+
+func minInt(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
+// #94
+// In Chinese: 二叉树最大深度
+// Difficulty: easy
+// Given the root of a binary tree, return the inorder traversal of its nodes' values.
+//
+//
+// Examples:
+// Input: root = [1,null,2,3]
+// Output: [1,3,2]
+//
+//
+// Constraints:
+// The number of nodes in the tree is in the range [0, 100].
+// -100 <= Node.val <= 100
+//
+func inorderTraversal(root *TreeNode) []int {
+	inorderResult = make([]int, 0)
+	traverse(root)
+	return inorderResult
+}
+
+var inorderResult []int
+
+func traverse(root *TreeNode) {
+	if root == nil {
+		return
+	}
+	traverse(root.Left)
+	inorderResult = append(inorderResult, root.Val)
+	traverse(root.Right)
+}
+
+// #104
+// In Chinese: 二叉树最大深度
+// Difficulty: easy
+//
+// Given the root of a binary tree, return its maximum depth.
+// A binary tree's maximum depth is the number of nodes along
+// the longest path from the root node down to the farthest leaf node.
+//
+// Example:
+// Input: root = [3,9,20,null,null,15,7]
+// Output: 3
+//
+// Constraints:
+// The number of nodes in the tree is in the range [0, 104].
+// -100 <= Node.val <= 100
+func maxDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
+}
+
+// #121
+// In Chinese: 买卖股票的最佳时机
+// Difficulty: easy
+//
+//
+// Description:
+// You are given an array prices where prices[i] is the price of a given
+// stock on the ith day.
+//
+// You want to maximize your profit by choosing a single day to buy one
+// stock and choosing a different day in the future to sell that stock.
+//
+// Return the maximum profit you can achieve from this transaction.
+// If you cannot achieve any profit, return 0.
+//
+//
+// Examples:
+// Input: prices = [7,1,5,3,6,4]
+// Output: 5
+// Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6),
+// profit = 6-1 = 5. Note that buying on day 2 and selling on day 1
+// is not allowed because you must buy before you sell.
+//
+// Constraints:
+// 1 <= prices.length <= 105
+// 0 <= prices[i] <= 104
+func maxProfit(prices []int) int {
+	if len(prices) == 0 {
+		return 0
+	}
+
+	maxProfit := 0
+	min := prices[0]
+	for i := 1; i < len(prices); i++ {
+		min = minInt(min, prices[i])
+		maxProfit = max(maxProfit, prices[i]-min)
+	}
+	return maxProfit
 }
