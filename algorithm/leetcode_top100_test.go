@@ -151,3 +151,69 @@ func TestPermute(t *testing.T) {
 	// [[0,1],[1,0]]
 	// [[1]]
 }
+
+func TestRotate(t *testing.T) {
+	m := [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
+	rotate(m)
+	fmt.Println(m)
+	// Output: [[7,4,1 ],[8,5,2],[9,6,3]]
+}
+
+func TestGroupAnagrams(t *testing.T) {
+	// fmt.Println(groupAnagrams([]string{"eat", "tea", "tan", "ate", "nat", "bat"}))
+	// fmt.Println(groupAnagrams([]string{""}))
+	// fmt.Println(groupAnagrams([]string{"a"}))
+	// fmt.Println(groupAnagrams([]string{"ill", "duh"}))
+	fmt.Println(groupAnagrams([]string{
+		"tho", "tin", "erg", "end", "pug", "ton", "alb", "mes", "job", "ads", "soy", "toe",
+		"tap", "sen", "ape", "led", "rig", "rig", "con", "wac", "gog", "zen", "hay", "lie", "pay", "kid",
+		"oaf", "arc", "hay", "vet", "sat", "gap", "hop", "ben", "gem", "dem", "pie", "eco", "cub", "coy",
+		"pep", "wot", "wee"}))
+	// output:
+	// [["bat"],["nat","tan"],["ate","eat","tea"]]  (order can be different)
+	// [[""]]
+	// [["a"]]
+	// [["duh"] ["ill"]]
+	// [["wee"],["pep"],["cub"],["eco"],["dem"],["gap"],["vet"],["job"],["ben"],["toe"],["hay","hay"],["mes"],["ads"],
+	// ["alb"],["wot"],["gem"],["oaf"],["hop"],["ton"],["pug"],["end"],["con"],["coy"],["sat"],["soy"],["pay"],["tin"],
+	// ["pie"],["ape"],["tho"],["erg"],["sen"],["rig","rig"],["tap"],["wac"],["gog"],["led"],["zen"],["arc"],["lie"],["kid"]]
+}
+
+func TestVal(t *testing.T) {
+	fmt.Println(maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
+	// fmt.Println(maxSubArray([]int{1}))
+	// fmt.Println(maxSubArray([]int{5, 4, -1, 7, 8}))
+	// output:
+	// 6
+	// 1
+	// 23
+}
+
+func TestCanJump(t *testing.T) {
+	fmt.Println(canJump([]int{2, 3, 1, 1, 4}))
+	fmt.Println(canJump([]int{3, 2, 1, 0, 4}))
+	// output:
+	// true
+	// false
+}
+
+func TestMerge(t *testing.T) {
+	fmt.Println(merge([][]int{{1, 4}, {2, 6}, {10, 13}, {15, 18}}))
+	// output:
+	// [[1 6] [10 13] [15 18]]
+}
+
+func TestInsert(t *testing.T) {
+	fmt.Println(insert([][]int{{1, 2}, {3, 5}, {6, 7}, {8, 10}, {12, 16}}, []int{4, 8}))
+	fmt.Println(insert([][]int{{1, 5}}, []int{6, 8}))
+}
+
+func TestMaxProfit(t *testing.T) {
+	fmt.Println(maxProfit([]int{1, 2}))
+	fmt.Println(maxProfit([]int{7, 1, 5, 3, 6, 4}))
+	fmt.Println(maxProfit([]int{7, 6, 4, 3, 1}))
+}
+
+func TestMaxDepth(t *testing.T) {
+
+}
