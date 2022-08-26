@@ -214,6 +214,30 @@ func TestMaxProfit(t *testing.T) {
 	fmt.Println(maxProfit([]int{7, 6, 4, 3, 1}))
 }
 
-func TestMaxDepth(t *testing.T) {
+func TestClimbStairs(t *testing.T) {
+	fmt.Println(climbStairs(2))
+	fmt.Println(climbStairs(3))
+	fmt.Println(climbStairs(4))
+	// output:
+	// 2
+	// 3
+	// 5
+}
 
+func TestSortColors(t *testing.T) {
+	num := []int{1, 0, 1, 0, 2, 1, 2, 2, 0}
+	sortColors(num)
+	fmt.Println(num)
+	// output:
+	// [0 0 0 1 1 1 2 2 2]
+}
+
+func TestSubset(t *testing.T) {
+	fmt.Println(subsets([]int{1}))
+	fmt.Println(subsets([]int{1, 2}))
+	fmt.Println(subsets([]int{1, 2, 3}))
+	// output:
+	// [[] [1]]
+	// [[] [1 2] [1] [2]]
+	// [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
 }

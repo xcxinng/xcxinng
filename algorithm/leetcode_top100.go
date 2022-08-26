@@ -5,6 +5,7 @@ import (
 	"math"
 	"math/big"
 	"sort"
+	"strings"
 )
 
 // In Chinese: 两数之和
@@ -135,6 +136,47 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 
 // In Chinese: 三数之和
 // Difficulty: medium
+/*
+Given an integer array nums, return all the triplets [nums[i], nums[j],nums[k]]
+such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+Notice that the solution set must not contain duplicate triplets.
+
+Example 1:
+Input: nums = [-1,0,1,2,-1,-4]
+Output: [[-1,-1,2],[-1,0,1]]
+Explanation:
+nums[0] + nums[1] + nums[1] = (-1) + 0 + 1 = 0.
+nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
+nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
+The distinct triplets are [-1,0,1] and [-1,-1,2].
+Notice that the order of the output and the order of the triplets does not matter.
+
+Example 2:
+Input: nums = [0,1,1]
+Output: []
+Explanation: The only possible triplet does not sum up to 0.
+
+Example 3:
+Input: nums = [0,0,0]
+Output: [[0,0,0]]
+Explanation: The only possible triplet sums up to 0.
+
+*/
+
+// method_1: sort + "two pointer"
+//
+// Solution steps (Based on the traditional triple for-loop solution):
+//
+//  1. As the algorithm required, tuples should be unique, so tuple
+//  (a,b,c) must meet the requirement of: a<=b<=c, which means we
+//  have to sort nums.
+//
+//  2. In the meanwhile, in each iteration, should examine if
+//  there are the same num after the current num, if it does
+//  that it should be skipped as well.
+//
+//
 func threeSum(nums []int) (result [][]int) {
 	sort.Ints(nums)
 
@@ -426,6 +468,17 @@ func isValid(s string) bool {
 		stack = stack[:len(stack)-1]
 	}
 	return len(stack) == 0
+}
+
+// Solution 1 using stack structure to solve efficiently.
+// Solution 2 woks in an inefficient way.
+func isValid2(s string) bool {
+	for strings.Contains(s, "{}") || strings.Contains(s, "[]") || strings.Contains(s, "()") {
+		s = strings.Replace(s, "{}", "", 1)
+		s = strings.Replace(s, "()", "", 1)
+		s = strings.Replace(s, "[]", "", 1)
+	}
+	return s == ""
 }
 
 // In Chinese: 合并两个有序链表
@@ -934,7 +987,7 @@ func uniquePaths(m, n int) int {
 // Difficulty: medium
 //
 // Description:
-// Given a m x n grid filled with non-negative numbers,
+// Given a "m x n" grid filled with non-negative numbers,
 // find a path from top left to bottom right, which minimizes
 // the sum of all numbers along its path.
 // Note: You can only move either down or right at any point in time.
@@ -947,6 +1000,111 @@ func uniquePaths(m, n int) int {
 // Tags: #dynamic programming
 func minPathSum(grid [][]int) int {
 	return 0
+}
+
+// #70
+// In Chinese: 爬楼梯
+// Difficulty: easy
+//
+// Descriptions:
+// You are climbing a staircase. It takes n steps to reach the top.
+// Each time you can either climb 1 or 2 steps. In how many distinct
+// ways can you climb to the top?
+//
+// Constraints:
+// 1 <= n <= 45
+//
+// Examples:
+// Input: n = 3
+// Output: 3
+// Explanation: There are three ways to climb to the top.
+// 1. 1 step + 1 step + 1 step
+// 2. 1 step + 2 steps
+// 3. 2 steps + 1 step
+//
+// Tags: #dynamic programming
+// Formula: dp[i] = dp[i-2] + dp[i-1]
+func climbStairs(n int) int {
+	if n <= 2 {
+		return n
+	}
+	q := 1
+	p := 2
+	r := 0
+	for i := 3; i <= n; i++ {
+		r = q + p
+		q = p
+		p = r
+	}
+	return r
+}
+
+// #75
+// In Chinese: 颜色分类
+// Difficulty: medium
+//
+// Descriptions:
+// Given an array nums with n objects colored red, white, or blue,
+// sort them in-place so that objects of the same color are adjacent,
+// with the colors in the order red, white, and blue.
+//
+// We will use the integers 0, 1, and 2 to represent the color red,
+// white, and blue, respectively.
+//
+// You must solve this problem without using the library's sort function.
+//
+// Constraints:
+// n == nums.length
+// 1 <= n <= 300
+// nums[i] is either 0, 1, or 2.
+//
+// Examples:
+// Input: nums = [2,0,2,1,1,0]
+// Output: [0,0,1,1,2,2]
+//
+func sortColors(nums []int) {
+	countZero, countOne, countTwo := 0, 0, 0
+	for i := 0; i < len(nums); i++ {
+		switch nums[i] {
+		case 0:
+			countZero++
+		case 1:
+			countOne++
+		default:
+			countTwo++
+		}
+	}
+	for i := 0; i < countZero; i++ {
+		nums[i] = 0
+	}
+	for i := countZero; i < countZero+countOne; i++ {
+		nums[i] = 1
+	}
+	for i := countOne + countZero; i < len(nums); i++ {
+		nums[i] = 2
+	}
+}
+
+func subsets(nums []int) [][]int {
+	result := make([][]int, 0)
+	result = append(result, []int{}, nums)
+	if len(nums) == 0 {
+		return result
+	}
+
+	i := 1
+	for i < len(nums) {
+		left := 0
+		right := left + i
+		for left < len(nums) && right <= len(nums) {
+			values := nums[left:right]
+			result = append(result, values)
+			left++
+			right = left + i
+		}
+		i++
+	}
+	return result
 }
 
 func minInt(a, b int) int {
