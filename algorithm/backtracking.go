@@ -32,6 +32,7 @@ func combineBacktracking(n, k, startIndex int) {
 		return
 	}
 
+	// add something to be deleted
 	for i := startIndex; i < n-(k-len(combinePath))+1; i++ {
 		combinePath = append(combinePath, i)
 		combineBacktracking(n, k, i+1)
