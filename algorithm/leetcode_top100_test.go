@@ -9,9 +9,9 @@ func TestThreeSum(t *testing.T) {
 	fmt.Println(threeSum([]int{-1, -1, 0, 0, 1, 1, 2}))
 }
 
-func TestLetterCombinations(t *testing.T) {
-	fmt.Println(letterCombinations("23"))
-}
+// func TestLetterCombinations(t *testing.T) {
+// 	fmt.Println(letterCombinations("23"))
+// }
 
 func TestLongestPalindrome(t *testing.T) {
 	fmt.Println(longestPalindrome("kkabadd"))

@@ -41,29 +41,29 @@ func BubbleSort(nums []int) {
 //
 // numbers[i] <= nums[pivot], low <= i <= pivotIndex;
 // numbers[i] >= nums[pivot], pivotIndex <= i <= high.
-func partition(nums []int, low int, high int) (pivotIndex int) {
-	pivotValue := nums[high]
-	pivotIndex = low
-	for low < high {
-		if nums[low] <= pivotValue {
-			nums[pivotIndex], nums[low] = nums[low], nums[pivotIndex]
-			pivotIndex++
-		}
-		low++
-	}
-	nums[pivotIndex], nums[high] = pivotValue, nums[pivotIndex]
-	return
-}
+// func partition(nums []int, low int, high int) (pivotIndex int) {
+// 	pivotValue := nums[high]
+// 	pivotIndex = low
+// 	for low < high {
+// 		if nums[low] <= pivotValue {
+// 			nums[pivotIndex], nums[low] = nums[low], nums[pivotIndex]
+// 			pivotIndex++
+// 		}
+// 		low++
+// 	}
+// 	nums[pivotIndex], nums[high] = pivotValue, nums[pivotIndex]
+// 	return
+// }
 
-func _quickSort(nums []int, low, high int) {
-	if low >= high {
-		return
-	}
-	// "divide and conquer"
-	pivotLoc := partition(nums, low, high)
-	_quickSort(nums, low, pivotLoc-1)
-	_quickSort(nums, pivotLoc+1, high)
-}
+// func _quickSort(nums []int, low, high int) {
+// 	if low >= high {
+// 		return
+// 	}
+// 	// "divide and conquer"
+// 	pivotLoc := partition(nums, low, high)
+// 	_quickSort(nums, low, pivotLoc-1)
+// 	_quickSort(nums, pivotLoc+1, high)
+// }
 
 // QuickSort
 //
@@ -72,9 +72,9 @@ func _quickSort(nums []int, low, high int) {
 //
 // It's well-known that QuickSort has the best average performance among all
 // the sort algorithms with time complexity O(nlogn).
-func QuickSort(nums []int) {
-	_quickSort(nums, 0, len(nums)-1)
-}
+// func QuickSort(nums []int) {
+// 	_quickSort(nums, 0, len(nums)-1)
+// }
 
 // SimpleSelectSort
 // Time complexity: O(n^2)
