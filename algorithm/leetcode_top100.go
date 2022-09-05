@@ -230,14 +230,14 @@ var phoneMap map[string]string = map[string]string{
 // #backtracking
 // #all the possible solutions
 // #Brute-force search
-func letterCombinations(digits string) []string {
-	if len(digits) == 0 {
-		return []string{}
-	}
-	combinations = []string{}
-	backtrack(digits, 0, "")
-	return combinations
-}
+// func letterCombinations(digits string) []string {
+// 	if len(digits) == 0 {
+// 		return []string{}
+// 	}
+// 	combinations = []string{}
+// 	backtrack(digits, 0, "")
+// 	return combinations
+// }
 
 // combinations is used by letterCombinations and backtrack,
 // it is the final answer of letterCombinations.
@@ -688,9 +688,9 @@ func searchRange(nums []int, target int) []int {
 // 1 <= target <= 500
 //
 // What a stupid question! shit!
-func combinationSum(candidates []int, target int) [][]int {
-	return nil
-}
+// func combinationSum(candidates []int, target int) [][]int {
+// 	return nil
+// }
 
 // [Cautions]
 // TODO: Some of top100 algorithms are omit temporarily here. Please accomplish them in time.

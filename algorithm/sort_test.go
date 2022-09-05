@@ -21,7 +21,7 @@ func TestBubbleSort(t *testing.T) {
 }
 
 func TestQuickSort(t *testing.T) {
-	QuickSort(nums)
+	// QuickSort(nums)
 	fmt.Println(nums)
 	// output:
 	// [1 13 38 49 65 70]
