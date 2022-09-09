@@ -142,15 +142,15 @@ func TestSearchRange(t *testing.T) {
 	// [-1 -1]
 }
 
-func TestPermute(t *testing.T) {
-	fmt.Println(permute([]int{1, 2, 3}))
-	fmt.Println(permute([]int{0, 1}))
-	fmt.Println(permute([]int{1}))
-	// output:
-	// [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
-	// [[0,1],[1,0]]
-	// [[1]]
-}
+// func TestPermute(t *testing.T) {
+// 	fmt.Println(permute([]int{1, 2, 3}))
+// 	fmt.Println(permute([]int{0, 1}))
+// 	fmt.Println(permute([]int{1}))
+// 	// output:
+// 	// [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+// 	// [[0,1],[1,0]]
+// 	// [[1]]
+// }
 
 func TestRotate(t *testing.T) {
 	m := [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}

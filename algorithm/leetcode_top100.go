@@ -699,7 +699,7 @@ func searchRange(nums []int, target int) []int {
 // permuteResult stores the outcome of permute.
 // It should be putting into a field of a structure instead of a global variable,
 // why doing like this is because of leetcode' restriction.
-var permuteResult [][]int
+// var permuteResult [][]int
 
 // backTrackingPermute generates all the possible permutations for nums.
 //
@@ -731,16 +731,16 @@ func backTrackingPermute(target int, first int, output []int) {
 // All the integers of nums are unique.
 //
 // Tags: #backtracking
-func permute(nums []int) [][]int {
-	// Oh god, I totally get confused  -_-|.
-	//
-	// The reason I don't empty it is that it's so difficult
-	// that I even can't understand it, so I keep the code here
-	// for future review.
-	permuteResult = make([][]int, 0)
-	backTrackingPermute(len(nums), 0, nums)
-	return permuteResult
-}
+// func permute(nums []int) [][]int {
+//     // Oh god, I totally get confused  -_-|.
+//     //
+//     // The reason I don't empty it is that it's so difficult
+//     // that I even can't understand it, so I keep the code here
+//     // for future review.
+//     permuteResult = make([][]int, 0)
+//     backTrackingPermute(len(nums), 0, nums)
+//     return permuteResult
+// }
 
 // #48
 // In Chinese:旋转图像
@@ -1085,27 +1085,27 @@ func sortColors(nums []int) {
 	}
 }
 
-func subsets(nums []int) [][]int {
-	result := make([][]int, 0)
-	result = append(result, []int{}, nums)
-	if len(nums) == 0 {
-		return result
-	}
-
-	i := 1
-	for i < len(nums) {
-		left := 0
-		right := left + i
-		for left < len(nums) && right <= len(nums) {
-			values := nums[left:right]
-			result = append(result, values)
-			left++
-			right = left + i
-		}
-		i++
-	}
-	return result
-}
+// func subsets(nums []int) [][]int {
+// 	result := make([][]int, 0)
+// 	result = append(result, []int{}, nums)
+// 	if len(nums) == 0 {
+// 		return result
+// 	}
+//
+// 	i := 1
+// 	for i < len(nums) {
+// 		left := 0
+// 		right := left + i
+// 		for left < len(nums) && right <= len(nums) {
+// 			values := nums[left:right]
+// 			result = append(result, values)
+// 			left++
+// 			right = left + i
+// 		}
+// 		i++
+// 	}
+// 	return result
+// }
 
 func minInt(a, b int) int {
 	if a < b {

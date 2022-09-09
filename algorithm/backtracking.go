@@ -1,6 +1,10 @@
 package algorithm
 
-import "sort"
+import (
+	"sort"
+	"strconv"
+	"strings"
+)
 
 // #77 Combinations
 //
@@ -160,15 +164,18 @@ var (
 
 // 组合总和
 //
-// 给你一个 无重复元素 的整数数组 candidates 和一个目标整数 target，
+// 给你一个无重复元素的整数数组 candidates 和一个目标整数 target，
 // 找出 candidates 中可以使数字和为目标数 target 的 所有 不同组合，
 // 并以列表形式返回。你可以按 任意顺序 返回这些组合。
 //
-// candidates 中的 同一个 数字可以 无限制重复被选取 。
+// candidates 中的同一个数字可以无限制重复被选取 。
 // 如果至少一个数字的被选数量不同，则两种组合是不同的。
 //
 // 对于给定的输入，保证和为 target 的不同组合数少于 150 个。
 //
+// 分析:
+// 同个数字可以被选取，递归 i
+// 同个集合内的组合，需要startIndex
 func combinationSum(candidates []int, target int) [][]int {
 	comResult = make([][]int, 0)
 	comBacktracking(candidates, target, 0, 0)
@@ -207,7 +214,10 @@ var (
 //
 // 注意：解集不能包含重复的组合。
 //
-// 仔细分析与 [组合总和] 的区别
+// 分析:
+// 数字只能被使用一次，递归 i+1
+// 同个集合内的组合， 需要startIndex
+// 有重复数字但不能含重复组合，需要排序然后通过 n[i] == n[i-1] 去重
 func combinationSum2(candidates []int, target int) [][]int {
 	com2Result = make([][]int, 0)
 	sort.Ints(candidates)
@@ -239,14 +249,15 @@ func com2Backtracking(candidates []int, target, sum, startIndex int) {
 // 分割回文串
 //
 // 给你一个字符串s，请你将s分割成一些子串，使每个子串都是回文串。返回s所有可能的分割方案。
-//
 // 回文串是正着读和反着读都一样的字符串。
 //
 // Example:
 // 输入：s = "aab"
 // 输出：[["a","a","b"],["aa","b"]]
 //
-// "所有可能" ==> 回溯 ===> 穷举
+// 分析
+// 分割 ===  s[startIndex:i]
+// 由N叉树容易得，递归 i+1
 func partition(s string) [][]string {
 	palindromeRes = make([][]string, 0)
 	palindromeBacktracking(s, 0)
@@ -270,6 +281,15 @@ func palindromeBacktracking(s string, startIndex int) {
 		if !isPalindrome(s, startIndex, i) {
 			continue
 		}
+		// Note: everytime trim a substring, it will be s[startIndex:i+1]
+		// here are some examples:
+		// 0:1, a
+		// 0:2, aa
+		// 0:3, aaa
+		//
+		// 1:2, b
+		// 1:3, bb
+		// 1:4, bbb
 		palindromePath = append(palindromePath, s[startIndex:i+1])
 		palindromeBacktracking(s, i+1)
 		palindromePath = palindromePath[:len(palindromePath)-1]
@@ -285,4 +305,269 @@ func isPalindrome(s string, start, end int) bool {
 		end--
 	}
 	return true
+}
+
+// 复原IP地址
+//
+// 有效IP地址正好由四个整数（每个整数位于 0 到 255 之间组成，且不能含有前导 0），整数之间用 '.' 分隔。
+// 例如："0.1.2.201" 和 "192.168.1.1" 是 有效 IP 地址，但是 "0.011.255.245"、"192.168.1.312"
+// 和 "192.168@1.1" 是无效IP地址。
+//
+// 给定一个只包含数字的字符串 s ，用以表示一个 IP 地址，返回所有可能的有效 IP 地址，这些地址可以通过
+// 在 s 中插入'.'来形成。你不能重新排序或删除s中的任何数字。你可以按任何顺序返回答案。
+//
+// Constraints：
+// 1 <= s.length <= 20
+// s 仅由数字组成
+//
+// 整体思路也是走的切割路线，与切割回文串不同的是，这里多了对IP的合法性校验
+func restoreIpAddresses(s string) []string {
+	ipResult = make([]string, 0)
+	ipBacktracking(s, 0)
+	return ipResult
+}
+
+var (
+	ipResult []string
+	ipPath   []string
+)
+
+func ipBacktracking(s string, startIndex int) {
+	if startIndex == len(s) {
+		if len(ipPath) == 4 {
+			ipResult = append(ipResult, strings.Join(ipPath, "."))
+		}
+		return
+	}
+	for i := startIndex; i < len(s); i++ {
+		t := s[startIndex : i+1]
+		if len(t) > 1 && strings.HasPrefix(t, "0") {
+			continue
+		}
+		if len(t) > 3 {
+			continue
+		}
+		num, _ := strconv.ParseInt(t, 10, 32)
+		if num > 255 {
+			continue
+		}
+		ipPath = append(ipPath, t)
+		ipBacktracking(s, i+1)
+		ipPath = ipPath[:len(ipPath)-1]
+	}
+}
+
+/*
+
+==============贯穿整个回溯篇幅===============
+
+"在树形结构中子集问题是要收集所有节点的结果，而组合问题是收集叶子节点的结果"
+
+==============确实很重要的一点===============
+
+*/
+
+// 子集
+//
+// 给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。
+// 解集 不能 包含重复的子集。你可以按 任意顺序 返回解集。
+//
+// Constraint：
+// 1 <= nums.length <= 10
+// -10 <= nums[i] <= 10
+// nums 中的所有元素 互不相同
+//
+// 记住： 组合问题和分割问题都是收集树的叶子节点，而子集问题是找树的所有节点！
+func subsets(nums []int) [][]int {
+	subsetResult = make([][]int, 0)
+	subsetPath = make([]int, 0)
+	subsetBacktracking(nums, 0)
+	return subsetResult
+}
+
+var (
+	subsetResult [][]int
+	subsetPath   []int
+)
+
+// 子集：求所有结果
+func subsetBacktracking(num []int, startIndex int) {
+	t := make([]int, len(subsetPath))
+	copy(t, subsetPath)
+	subsetResult = append(subsetResult, t)
+	for i := startIndex; i < len(num); i++ {
+		subsetPath = append(subsetPath, num[i])
+		subsetBacktracking(num, i+1)
+		subsetPath = subsetPath[:len(subsetPath)-1]
+	}
+}
+
+// 子集II
+//
+// 给你一个整数数组 nums ，其中可能包含重复元素，请你返回该数组所有可能的子集（幂集）。
+// 解集 不能 包含重复的子集。返回的解集中，子集可以按 任意顺序 排列。
+//
+// 提示：
+// 1 <= nums.length <= 10
+// -10 <= nums[i] <= 10
+//
+// 就多了个去重逻辑： 排序 + n[i] == n[i-1]
+func subsetsWithDup(nums []int) [][]int {
+	subsetDupPath = make([]int, 0)
+	subsetDupResult = make([][]int, 0)
+	sort.Ints(nums)
+	subsetDupBacktracking(nums, 0)
+	return subsetDupResult
+}
+
+var (
+	subsetDupResult [][]int
+	subsetDupPath   []int
+)
+
+func subsetDupBacktracking(nums []int, startIndex int) {
+	t := make([]int, len(subsetDupPath))
+	copy(t, subsetDupPath)
+	subsetDupResult = append(subsetDupResult, t)
+	for i := startIndex; i < len(nums); i++ {
+		if i > startIndex && nums[i] == nums[i-1] {
+			continue
+		}
+		subsetDupPath = append(subsetDupPath, nums[i])
+		subsetDupBacktracking(nums, i+1)
+		subsetDupPath = subsetDupPath[:len(subsetDupPath)-1]
+	}
+}
+
+// 递增子序列
+//
+// 给你一个整数数组 nums ，找出并返回所有该数组中不同的递增子序列，
+// 递增子序列中 至少有两个元素 。你可以按 任意顺序 返回答案。
+// 数组中可能含有重复元素，如出现两个整数相等，也可以视作递增序列的一种特殊情况。
+//
+// 提示：
+// 1 <= nums.length <= 15
+// -100 <= nums[i] <= 100
+//
+func findSubsequences(nums []int) [][]int {
+	subsequenceResult = make([][]int, 0)
+	subsequencePath = make([]int, 0)
+	subsequenceBacktracking(nums, 0, 0)
+	return subsequenceResult
+}
+
+var (
+	subsequenceResult [][]int
+	subsequencePath   []int
+)
+
+func subsequenceBacktracking(nums []int, startIndex int, sum int) {
+	if len(subsequencePath) > 1 {
+		t := make([]int, len(subsequencePath))
+		copy(t, subsequencePath)
+		subsequenceResult = append(subsequenceResult, t)
+	}
+
+	// the key to deduplicate: A digit in the same layer can not be used repeatedly.
+	// So, here, use a map to deduplicate.
+	history := make(map[int]struct{})
+	for i := startIndex; i < len(nums); i++ {
+		if _, exist := history[nums[i]]; exist {
+			continue
+		}
+		history[nums[i]] = struct{}{}
+
+		// ensure subsequencePath is an ascendant slice
+		if len(subsequencePath) > 0 && nums[i] < subsequencePath[len(subsequencePath)-1] {
+			continue
+		}
+		subsequencePath = append(subsequencePath, nums[i])
+		subsequenceBacktracking(nums, i+1, sum+nums[i])
+		subsequencePath = subsequencePath[:len(subsequencePath)-1]
+	}
+}
+
+// 全排列
+//
+// 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案
+//
+// 把N叉树画出来，不难的
+func permute(nums []int) [][]int {
+	permuteResult = make([][]int, 0)
+	permutePath = make([]int, 0)
+	permuteBacktracking(nums)
+	return permuteResult
+}
+
+var (
+	permuteResult [][]int
+	permutePath   []int
+)
+
+// 关键在于每次迭代时for循环的集合元素过滤
+// 可以使用used数组记录（空间换时间），我这里直接for遍历查找，用时间换空间
+func permuteBacktracking(nums []int) {
+	if len(permutePath) == len(nums) {
+		t := make([]int, len(nums))
+		copy(t, permutePath)
+		permuteResult = append(permuteResult, t)
+		return
+	}
+	for i := 0; i < len(nums); i++ {
+		has := false
+		for j := 0; j < len(permutePath); j++ {
+			if permutePath[j] == nums[i] {
+				has = true
+				break
+			}
+		}
+		if has {
+			continue
+		}
+		permutePath = append(permutePath, nums[i])
+		permuteBacktracking(nums)
+		permutePath = permutePath[:len(permutePath)-1]
+	}
+}
+
+// 全排列II
+//
+// 给定一个可包含重复数字的序列 nums ，按任意顺序 返回所有不重复的全排列。
+//
+//
+func permuteUnique(nums []int) [][]int {
+	permuteUniqueResult = make([][]int, 0)
+	permuteUniquePath = make([]int, 0)
+	usedIndex := make(map[int]struct{})
+	sort.Ints(nums)
+	permuteUniqueBacktracking(nums, usedIndex)
+	return permuteUniqueResult
+}
+
+var (
+	permuteUniqueResult [][]int
+	permuteUniquePath   []int
+)
+
+func permuteUniqueBacktracking(nums []int, usedIndex map[int]struct{}) {
+	if len(permuteUniquePath) == len(nums) {
+		t := make([]int, len(nums))
+		copy(t, permuteUniquePath)
+		permuteUniqueResult = append(permuteUniqueResult, t)
+		return
+	}
+	for i := 0; i < len(nums); i++ {
+		_, exist := usedIndex[i-1]
+		if i > 0 && nums[i] == nums[i-1] && !exist {
+			continue
+		}
+		if _, exist = usedIndex[i]; exist {
+			continue
+		}
+		usedIndex[i] = struct{}{}
+		permuteUniquePath = append(permuteUniquePath, nums[i])
+		permuteUniqueBacktracking(nums, usedIndex)
+		permuteUniquePath = permuteUniquePath[:len(permuteUniquePath)-1]
+		delete(usedIndex, i)
+	}
 }
