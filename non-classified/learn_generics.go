@@ -1,10 +1,11 @@
-package main
+package nonclassified
 
 import (
 	"fmt"
-	"golang.org/x/exp/constraints"
 	"log"
 	"strconv"
+
+	"golang.org/x/exp/constraints"
 )
 
 func SumInts(data map[string]int64) int64 {
@@ -37,7 +38,7 @@ func convertToIntPrt[T uint8 | uint16 | uint32](t T) *int {
 	return &a
 }
 
-func main() {
+func learnGenerics() {
 	//var (
 	//	ints   = map[string]int64{"1st": 1, "2nd": 2}
 	//	floats = map[string]float64{"1st": 1, "2nd": 2}
@@ -56,7 +57,7 @@ func main() {
 	//fmt.Printf("generic that imit type argument: SumFloats:%v\n", SumIntsOrFloats(floats))
 
 	//callSumNumbers()
-	fmt.Println(convertAny2String(myFloat(1.0)))
+	// fmt.Println(convertAny2String(myFloat(1.0)))
 }
 
 // Number 这种用法应该是1.18才支持的,可以认为这种一种范型interface,经过测试，仅支持内建类型
@@ -91,5 +92,3 @@ func convertAndDoStuff[T constraints.Unsigned](s string, setter func(c T)) {
 	}
 	setter(T(c))
 }
-
-type myFloat float32

@@ -61,7 +61,7 @@ func newTask(body []byte, key string) {
 // publish one message to queue "test1" and with routing key "test1"
 // # go build -o produce .
 // # ./produce test1 test1
-func main() {
+func runProducer() {
 	if len(os.Args) < 3 {
 		log.Fatal(paramError)
 	}

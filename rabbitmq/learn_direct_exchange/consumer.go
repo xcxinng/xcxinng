@@ -117,7 +117,7 @@ func consume(queueName string, routingKey ...string) {
 //
 // It can be represented graphically as ./direct_exchange.png
 // binding table see: ./direct_exchange_rules.png
-func main() {
+func runConsumer() {
 	if len(os.Args) < 3 {
 		log.Fatal(ErrorConsumingParam)
 	}

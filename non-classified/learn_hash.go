@@ -1,4 +1,4 @@
-package main
+package nonclassified
 
 func main() {
 	useMd5()

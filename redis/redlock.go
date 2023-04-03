@@ -1,4 +1,4 @@
-package main
+package redis
 
 import (
 	"fmt"
@@ -34,7 +34,7 @@ func init() {
 	rs = redsync.New(pool, pool2, pool3)
 }
 
-func main() {
+func runRedLock() {
 	// Obtain a new mutex by using the same name for all instances wanting the
 	// same lock.
 	mutexname := "my-global-mutex"

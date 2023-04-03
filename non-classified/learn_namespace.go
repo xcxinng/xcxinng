@@ -1,13 +1,14 @@
-package main
+package nonclassified
 
 import (
 	"flag"
 	"fmt"
-	"github.com/vishvananda/netns"
 	"log"
 	"net"
 	"os/exec"
 	"runtime"
+
+	"github.com/vishvananda/netns"
 )
 
 var (
@@ -15,7 +16,7 @@ var (
 	iface = flag.String("iface", "eth0", "specify container interface")
 )
 
-func main() {
+func learnNamespace() {
 	flag.Parse()
 	runtime.LockOSThread()
 	net.Interfaces()

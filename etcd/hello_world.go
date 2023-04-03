@@ -1,4 +1,4 @@
-package main
+package etcd
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	clientv3 "go.etcd.io/etcd/client/v3"
 )
 
-func main() {
+func runHelloWorld() {
 	cli, err := clientv3.New(clientv3.Config{
 		Endpoints:   []string{"192.168.30.146:2379", "192.168.30.147:2379", "192.168.30.148:2379"},
 		DialTimeout: 5 * time.Second,

@@ -1,4 +1,4 @@
-package main
+package prometheus
 
 import (
 	"log"
@@ -104,7 +104,7 @@ func NewPseudoCollector(namespace string, vpn Processor) prometheus.Collector {
 	}
 }
 
-func main() {
+func runInstrumentAppCustomWay() {
 	// unregister the default collector in order to keep output cleaner
 	prometheus.Unregister(collectors.NewGoCollector())
 	prometheus.Unregister(collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}))

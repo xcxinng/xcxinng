@@ -1,4 +1,4 @@
-package main
+package prometheus
 
 import (
 	"net/http"
@@ -25,7 +25,7 @@ var (
 	})
 )
 
-func main() {
+func runInstrumentAppHelloWorld() {
 	recordMetrics()
 	//prometheus.MustRegister()
 	http.Handle("/metrics", promhttp.Handler())

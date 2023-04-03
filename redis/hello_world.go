@@ -1,4 +1,4 @@
-package main
+package redis
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-func main() {
+func runHelloWorld() {
 	ctx := context.Background()
 
 	rdb := redis.NewClient(&redis.Options{

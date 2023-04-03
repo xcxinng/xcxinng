@@ -1,4 +1,4 @@
-package main
+package redis
 
 import (
 	"context"
@@ -178,7 +178,7 @@ const (
 	ovsHostIP  = "192.168.10.1"
 )
 
-func main() {
+func runDeduplication() {
 	flag.Parse()
 	flows, err := newOvsHost(30).GetFlows()
 	if err != nil {

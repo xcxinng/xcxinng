@@ -1,4 +1,4 @@
-package main
+package etcd
 
 import (
 	"context"
@@ -12,7 +12,7 @@ import (
 
 var logger = log.Default()
 
-func main() {
+func runDistributedLock() {
 	var name = flag.String("name", "", "give a name")
 	flag.Parse()
 	// Create a etcd client
