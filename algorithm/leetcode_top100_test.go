@@ -5,6 +5,10 @@ import (
 	"testing"
 )
 
+func TestTwoSum(t *testing.T) {
+	t.Log(twoSum([]int{1, 2, 3}, 6))
+}
+
 func TestThreeSum(t *testing.T) {
 	fmt.Println(threeSum([]int{-1, -1, 0, 0, 1, 1, 2}))
 }

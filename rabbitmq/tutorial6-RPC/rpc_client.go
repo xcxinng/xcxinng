@@ -85,7 +85,7 @@ func fibonacciRPC(n int) (res int, err error) {
 	return
 }
 
-func main() {
+func runRPCClient() {
 	rand.Seed(time.Now().UTC().UnixNano())
 
 	n := bodyFrom(os.Args)

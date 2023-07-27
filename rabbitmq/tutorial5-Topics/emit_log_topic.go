@@ -14,7 +14,7 @@ func onError(err error, msg string) {
 	}
 }
 
-func main() {
+func runEmitLogTopic() {
 	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
 	onError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()

@@ -8,8 +8,8 @@ import (
 	"strings"
 )
 
-// In Chinese: 两数之和
-// Difficulty: simple(easy)
+// Two sum
+// Level: beginner(easy)
 func twoSum(nums []int, target int) []int {
 	for i := 0; i < len(nums)-1; i++ {
 		for j := len(nums) - 1; j > i; j-- {
@@ -22,7 +22,7 @@ func twoSum(nums []int, target int) []int {
 }
 
 // In Chinese: 两数相加
-// Difficulty: medium
+// Level: medium
 func addTwoNumbers(l1, l2 *ListNode) (head *ListNode) {
 	var tail *ListNode
 	carry := 0
@@ -53,14 +53,13 @@ func addTwoNumbers(l1, l2 *ListNode) (head *ListNode) {
 }
 
 // In Chinese: 无重复字符的最长子串
-// Difficulty: medium
+// Level: medium
 //
 // Description: 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
 //
 // Constraints：
 // 0 <= s.length <= 5 * 104
 // s 由英文字母、数字、符号和空格组成
-//
 func lengthOfLongestSubstring(s string) int {
 	if s == "" {
 		return 0
@@ -87,7 +86,7 @@ func lengthOfLongestSubstring(s string) int {
 }
 
 // In Chinese: 寻找两个正序数组的中位数
-// Difficulty: difficult
+// Level: difficult
 //
 // Description: 给定两个大小分别为 m 和 n 的正序（从小到大）数组nums1 和nums2。
 // 请你找出并返回这两个正序数组的 中位数 。 算法的时间复杂度应该为 O(log (m+n)) 。
@@ -99,7 +98,6 @@ func lengthOfLongestSubstring(s string) int {
 // 0 <= n <= 1000
 // 1 <= m + n <= 2000
 // -106 <= nums1[i], nums2[i] <= 106
-//
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	var mergeArray []int
 	i, j := 0, 0
@@ -135,7 +133,7 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 }
 
 // In Chinese: 三数之和
-// Difficulty: medium
+// Level: medium
 /*
 Given an integer array nums, return all the triplets [nums[i], nums[j],nums[k]]
 such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
@@ -169,14 +167,12 @@ Explanation: The only possible triplet sums up to 0.
 // Solution steps (Based on the traditional triple for-loop solution):
 //
 //  1. As the algorithm required, tuples should be unique, so tuple
-//  (a,b,c) must meet the requirement of: a<=b<=c, which means we
-//  have to sort nums.
+//     (a,b,c) must meet the requirement of: a<=b<=c, which means we
+//     have to sort nums.
 //
 //  2. In the meanwhile, in each iteration, should examine if
-//  there are the same num after the current num, if it does
-//  that it should be skipped as well.
-//
-//
+//     there are the same num after the current num, if it does
+//     that it should be skipped as well.
 func threeSum(nums []int) (result [][]int) {
 	sort.Ints(nums)
 
@@ -224,7 +220,7 @@ var phoneMap map[string]string = map[string]string{
 }
 
 // In Chinese: 电话号码的字母组合
-// Difficulty: medium
+// Level: medium
 //
 // Tags:
 // #backtracking
@@ -264,7 +260,7 @@ func backtrack(digits string, index int, combination string) {
 }
 
 // In Chinese: 最长回文子串
-// Difficulty: medium
+// Level: medium
 //
 // A palindrome is a word, number, phrase, or other sequence of characters
 // which reads the same backward as forward, such as "madam" or "aka" etc.
@@ -309,7 +305,7 @@ func longestPalindrome(s string) string {
 }
 
 // In Chinese: 正则表达式匹配
-// Difficulty: Difficult
+// Level: Difficult
 //
 // Tags: #dynamic programming
 func isMatch(s string, p string) bool {
@@ -345,7 +341,7 @@ func isMatch(s string, p string) bool {
 }
 
 // In Chinese: 盛最多水的容器
-// Difficulty: medium
+// Level: medium
 //
 // Tags: #double-pointers
 func maxArea(height []int) int {
@@ -366,7 +362,7 @@ func maxArea(height []int) int {
 }
 
 // In Chinese: 删除链表的倒数第 N 个结点
-// Difficulty: medium
+// Level: medium
 //
 // Description: 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
 //
@@ -375,7 +371,6 @@ func maxArea(height []int) int {
 // 1 <= sz <= 30
 // 0 <= Node.val <= 100
 // 1 <= n <= sz
-//
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	count := 0
 	temp := head
@@ -414,8 +409,6 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 // another solution for removeNthFromEnd.
 //
 // Tags: #double pointers #dummy ListNode
-//
-//
 func removeNthFromEnd2(head *ListNode, n int) *ListNode {
 	dummy := &ListNode{Next: head}
 	fast, slow := head, dummy
@@ -430,7 +423,7 @@ func removeNthFromEnd2(head *ListNode, n int) *ListNode {
 }
 
 // In Chinese: 有效的括号
-// Difficulty: easy
+// Level: easy
 //
 // Description: 给定一个只包括 '('，')'，'{'，'}'，'['，']'的字符串 s ，判断字符串是否有效。
 //
@@ -482,7 +475,7 @@ func isValid2(s string) bool {
 }
 
 // In Chinese: 合并两个有序链表
-// Difficulty: easy
+// Level: easy
 //
 // Description: 将两个升序链表合并为一个新的 升序 链表并返回。
 // 新链表是通过拼接给定的两个链表的所有节点组成的。
@@ -496,7 +489,6 @@ func isValid2(s string) bool {
 //
 // Time complexity: O(n)
 // Space complexity: O(1)
-//
 func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 	// put an additional dummy node to the head, in case nil pointer deference
 	var dummy = &ListNode{}
@@ -521,7 +513,7 @@ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 }
 
 // In Chinese: 括号生成
-// Difficulty: medium
+// Level: medium
 //
 // Description: 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
 //
@@ -529,7 +521,6 @@ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 // 1 <= n <= 8
 //
 // Tags: #backtracking #dynamic programming
-//
 func generateParenthesis(n int) []string {
 	// I can't do it!
 	return nil
@@ -541,7 +532,7 @@ type Location struct {
 }
 
 // In Chinese: 合并K个升序链表
-// Difficulty: medium
+// Level: medium
 //
 // Description: 给你一个链表数组，每个链表都已经按升序排列。
 // 请你将所有链表合并到一个升序链表中，返回合并后的链表。
@@ -589,7 +580,7 @@ func mergeKLists(lists []*ListNode) *ListNode {
 }
 
 // In Chinese: 下一个排列
-// Difficulty: medium
+// Level: medium
 //
 // Description: 整数数组的排列就是将其所有成员以序列或线性顺序排列。
 // 整数数组的下一个排列是指其整数的下一个字典序更大的排列。更正式地，
@@ -602,8 +593,8 @@ func mergeKLists(lists []*ListNode) *ListNode {
 // 而 arr = [3,2,1] 的下一个排列是 [1,2,3] ，因为 [3,2,1] 不存在一个字典序更大的排列。
 //
 // NOTE:
-//  - 给你一个整数数组 nums ，找出 nums 的下一个排列。
-//  - 必须 原地 修改，只允许使用额外常数空间。
+//   - 给你一个整数数组 nums ，找出 nums 的下一个排列。
+//   - 必须 原地 修改，只允许使用额外常数空间。
 //
 // Constraints:
 // 1 <= nums.length <= 100
@@ -615,7 +606,7 @@ func nextPermutation(nums []int) {
 }
 
 // In Chinese: 最长有效括号
-// Difficulty: difficult
+// Level: difficult
 //
 // Description: Given a string containing just the characters '(' and ')',
 // find the length of the longest valid (well-formed) parentheses substring.
@@ -635,7 +626,7 @@ func longestValidParentheses(s string) int {
 }
 
 // In Chinese: 在排序数组中查找元素的第一个和最后一个位置
-// Difficulty: medium
+// Level: medium
 //
 // Description: Given an array of integers nums sorted in non-decreasing order,
 // find the starting and ending position of a given target value.
@@ -658,7 +649,7 @@ func searchRange(nums []int, target int) []int {
 }
 
 // In Chinese: 组合总和
-// Difficulty: medium
+// Level: medium
 //
 // Description: Given an array of distinct integers candidates and
 // a target integer target, return a list of all unique combinations
@@ -716,7 +707,7 @@ func backTrackingPermute(target int, first int, output []int) {
 }
 
 // In Chinese: 全排列
-// Difficulty: medium
+// Level: medium
 //
 // Description: Given an array nums of distinct integers, return all the
 // possible permutations. You can return the answer in any order.
@@ -744,7 +735,7 @@ func backTrackingPermute(target int, first int, output []int) {
 
 // #48
 // In Chinese:旋转图像
-// Difficulty: medium
+// Level: medium
 //
 // Description: You are given an "n x n" 2D matrix representing
 // an image, rotate the image by 90 degrees (clockwise).
@@ -776,14 +767,13 @@ func rotate(matrix [][]int) {
 
 // #49
 // In Chinese:字母异位词分组
-// Difficulty: medium
+// Level: medium
 //
 // Description: Given an array of strings strs, group the anagrams together.
 // You can return the answer in any order.
 //
 // An Anagram is a word or phrase formed by rearranging the letters of a
 // different word or phrase, typically using all the original letters exactly once.
-//
 //
 // Example:
 // Input: strs = ["eat","tea","tan","ate","nat","bat"]
@@ -802,7 +792,7 @@ func groupAnagrams(strs []string) [][]string {
 
 // #53
 // In Chinese:最大子数组和
-// Difficulty: medium
+// Level: medium
 //
 // Description: Given an integer array nums, find the contiguous
 // subarray (containing at least one number) which has the largest
@@ -828,7 +818,7 @@ func maxSubArray(nums []int) int {
 
 // #55
 // In Chinese: 跳跃游戏
-// Difficulty: medium
+// Level: medium
 //
 // Description: You are given an integer array nums.
 // You are initially positioned at the array's first index,
@@ -847,9 +837,8 @@ func maxSubArray(nums []int) int {
 // 0 <= nums[i] <= 105
 //
 // Solving Strategy:
-//  - Dont complicate it!
-//  - It's all about the index computation stuff
-//
+//   - Dont complicate it!
+//   - It's all about the index computation stuff
 func canJump(nums []int) bool {
 	var longMost = nums[0]
 	for i := 1; i < len(nums); i++ {
@@ -873,19 +862,16 @@ func max(a, b int) int {
 
 // #56
 // In Chinese: 合并区间
-// Difficulty: medium
-//
+// Level: medium
 //
 // Description: Given an array of intervals where intervals[i] = [starti, endi],
 // merge all overlapping intervals, and return an array of the non-overlapping
 // intervals that cover all the intervals in the input.
 //
-//
 // Example:
 // Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
 // Output: [[1,6],[8,10],[15,18]]
 // Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
-//
 //
 // Tags: mathematics
 func merge(intervals [][]int) (result [][]int) {
@@ -920,7 +906,7 @@ func intersects(a, b []int) bool {
 
 // #57
 // In Chinese: 插入区间
-// Difficulty: medium
+// Level: medium
 //
 // Description: You are given an array of non-overlapping intervals
 // where intervals[i] = [starti, endi] represent the start and the end of
@@ -953,7 +939,7 @@ func insert(intervals [][]int, newInterval []int) [][]int {
 
 // #62
 // In Chinese: 不同路径
-// Difficulty: medium
+// Level: medium
 //
 // There is a robot on an [m x n] grid. The robot is initially located at
 // the top-left corner (i.e., grid[0][0]). The robot tries to move to the
@@ -984,7 +970,7 @@ func uniquePaths(m, n int) int {
 
 // #64
 // In Chinese: 最小路径和
-// Difficulty: medium
+// Level: medium
 //
 // Description:
 // Given a "m x n" grid filled with non-negative numbers,
@@ -1004,7 +990,7 @@ func minPathSum(grid [][]int) int {
 
 // #70
 // In Chinese: 爬楼梯
-// Difficulty: easy
+// Level: easy
 //
 // Descriptions:
 // You are climbing a staircase. It takes n steps to reach the top.
@@ -1041,7 +1027,7 @@ func climbStairs(n int) int {
 
 // #75
 // In Chinese: 颜色分类
-// Difficulty: medium
+// Level: medium
 //
 // Descriptions:
 // Given an array nums with n objects colored red, white, or blue,
@@ -1061,7 +1047,6 @@ func climbStairs(n int) int {
 // Examples:
 // Input: nums = [2,0,2,1,1,0]
 // Output: [0,0,1,1,2,2]
-//
 func sortColors(nums []int) {
 	countZero, countOne, countTwo := 0, 0, 0
 	for i := 0; i < len(nums); i++ {
@@ -1122,19 +1107,16 @@ type TreeNode struct {
 
 // #94
 // In Chinese: 二叉树最大深度
-// Difficulty: easy
+// Level: easy
 // Given the root of a binary tree, return the inorder traversal of its nodes' values.
-//
 //
 // Examples:
 // Input: root = [1,null,2,3]
 // Output: [1,3,2]
 //
-//
 // Constraints:
 // The number of nodes in the tree is in the range [0, 100].
 // -100 <= Node.val <= 100
-//
 func inorderTraversal(root *TreeNode) []int {
 	inorderResult = make([]int, 0)
 	traverse(root)
@@ -1154,7 +1136,7 @@ func traverse(root *TreeNode) {
 
 // #104
 // In Chinese: 二叉树最大深度
-// Difficulty: easy
+// Level: easy
 //
 // Given the root of a binary tree, return its maximum depth.
 // A binary tree's maximum depth is the number of nodes along
@@ -1176,8 +1158,7 @@ func maxDepth(root *TreeNode) int {
 
 // #121
 // In Chinese: 买卖股票的最佳时机
-// Difficulty: easy
-//
+// Level: easy
 //
 // Description:
 // You are given an array prices where prices[i] is the price of a given
@@ -1188,7 +1169,6 @@ func maxDepth(root *TreeNode) int {
 //
 // Return the maximum profit you can achieve from this transaction.
 // If you cannot achieve any profit, return 0.
-//
 //
 // Examples:
 // Input: prices = [7,1,5,3,6,4]
