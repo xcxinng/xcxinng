@@ -1,6 +1,6 @@
 package util
 
-import _ "awesomeGolang/third_party"
+import _ "github.com/xcxinng/third_party"
 
 func useByteToString(d []byte) string
 

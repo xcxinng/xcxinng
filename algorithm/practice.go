@@ -3,6 +3,7 @@ package algorithm
 import (
 	"fmt"
 	"math"
+	"strings"
 )
 
 // Happen to hear this interviewing question from my current leader,
@@ -134,4 +135,19 @@ func check2(l *TreeNode, r *TreeNode) bool {
 		return false
 	}
 	return l.Val == r.Val && check2(l.Left, r.Right) && check2(l.Right, r.Left)
+}
+
+func findOcurrences(text string, first string, second string) []string {
+	var ret []string
+	words := strings.Split(text, " ")
+	if len(words) < 3 {
+		return nil
+	}
+
+	for i := 0; i < len(words)-2; i++ {
+		if words[i] == first && words[i+1] == second {
+			ret = append(ret, words[i+2])
+		}
+	}
+	return ret
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -8,7 +9,7 @@ import (
 )
 
 type VO struct {
-	Vni []string `form:"vni"`
+	Data string `form:"data" json:"data"`
 }
 
 func main() {
@@ -18,5 +19,12 @@ func main() {
 		c.MustBindWith(&v, binding.Query)
 		c.JSON(http.StatusOK, v)
 	})
+	r.POST("/ping", func(c *gin.Context) {
+		var v VO
+		c.ShouldBindJSON(&v)
+		fmt.Println(v.Data)
+		c.JSON(http.StatusOK, v)
+	})
+
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

@@ -1,4 +1,4 @@
-package etcd
+package main
 
 import (
 	"context"
@@ -15,7 +15,6 @@ var logger = log.Default()
 func runDistributedLock() {
 	var name = flag.String("name", "", "give a name")
 	flag.Parse()
-	// Create a etcd client
 	var err error
 	var cli *clientv3.Client
 	cli, err = clientv3.New(clientv3.Config{Endpoints: []string{"localhost:2379"}})
@@ -24,13 +23,15 @@ func runDistributedLock() {
 	}
 	defer cli.Close()
 
-	session, err := concurrency.NewSession(cli, concurrency.WithTTL(3))
+	// leaseSession obviously has a lease with ttl 3 seconds
+	leaseSession, err := concurrency.NewSession(cli, concurrency.WithTTL(3))
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer session.Close()
+	defer leaseSession.Close()
 
-	mutex := concurrency.NewMutex(session, *name)
+	// multiple services lock the same prefix
+	mutex := concurrency.NewMutex(leaseSession, *name)
 	ctx := context.TODO()
 
 	if err = mutex.Lock(ctx); err != nil {

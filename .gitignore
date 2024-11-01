@@ -13,3 +13,8 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+/*.txt
+/*.json
+lsm.tar.gz
+go.work
+.gitignore

@@ -8,13 +8,11 @@
 
 <!--Introduction -->
 I'm a senior backend engineer, currently base in Shenzhen, at PingAn.com.
-I have been working on monitoring and DevOps for around 3 years. Outside of work, I like reading
-books and papers of computer science.
+I have been working on DevOps and server development for over 3 years. Outside of work, I like reading books and papers of computer science.
 
 - 📚 I’m currently learning influxDB&Telegraf for work
 - 🐝 I'm a contributor to goVPP, and my goal for this year is to get myself involved with more open-source projects.
 - 🌱 I'm on my way to getting familiar with Prometheus, and Kubernetes ecosystems for personal interests
-- 🍰 Fun fact: Actually, I sing not bad at all :)
 
 ### 🧰 Skills
 <code><a href="https://go.dev/"><img height="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg" alt="golang logo" /></a></code>

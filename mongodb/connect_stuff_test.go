@@ -41,7 +41,7 @@ func TestConnectMongo(t *testing.T) {
 		{
 			name: "use the value from the combination",
 			args: args{
-				uri: "mongodb://localhost:27017",
+				uri: "mongodb://localhost:27017/testdb",
 				// readPreference: "secondary",
 			},
 		},

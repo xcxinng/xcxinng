@@ -2,6 +2,7 @@ package algorithm
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 )
 
@@ -100,4 +101,33 @@ func Test_practiceIsSymmetric(t *testing.T) {
 			Right: nil,
 		}}
 	fmt.Println(practiceIsSymmetric(node))
+}
+
+func Test_findOcurrences(t *testing.T) {
+	type args struct {
+		text   string
+		first  string
+		second string
+	}
+	tests := []struct {
+		name string
+		args args
+		want []string
+	}{
+		{
+			args: args{text: "She is a good girl she is a student", first: "is", second: "a"},
+			want: []string{"good", "student"},
+		},
+		{
+			args: args{text: "we will we will rock you", first: "we", second: "will"},
+			want: []string{"we", "rock"},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := findOcurrences(tt.args.text, tt.args.first, tt.args.second); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("findOcurrences() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }

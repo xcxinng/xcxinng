@@ -1,4 +1,4 @@
-package etcd
+package main
 
 import (
 	"context"
@@ -15,7 +15,7 @@ func runHelloWorld() {
 		DialTimeout: 5 * time.Second,
 	})
 	if err != nil {
-		// handle error!
+		panic(err)
 	}
 	defer cli.Close()
 
