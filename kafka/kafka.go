@@ -5,12 +5,15 @@ import (
 	"context"
 	"errors"
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 	"sync"
 	"syscall"
+	"time"
 
 	"github.com/IBM/sarama"
 )
@@ -195,7 +198,23 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 				return nil
 			}
 			log.Printf("Message claimed: value = %s, timestamp = %v, topic = %s", string(message.Value), message.Timestamp, message.Topic)
+
+			// 生产者通过在消息头部设定过期时间戳，消费者消费时通过检测这个时间戳确定是否已过期
+			if string(message.Headers[0].Key) == "ttl" {
+				expireTimestamp, _ := strconv.ParseInt(string(message.Headers[0].Value), 10, 64)
+				if time.Now().Unix() > expireTimestamp {
+					fmt.Println("message has expired")
+					continue
+				}
+			}
+
+			// 异步提交，后台有个pom(partition offset manage)goroutine专门负责自动提交的
+			// 调用markmessage可以将缓存中的消费位移及时更新
 			session.MarkMessage(message, "")
+
+			// 这种是同步提交，安全但性能低
+			// session.Commit()
+
 		// Should return when `session.Context()` is done.
 		// If not, will raise `ErrRebalanceInProgress` or `read tcp <ip>:<port>: i/o timeout` when kafka rebalance. see:
 		// https://github.com/IBM/sarama/issues/1192

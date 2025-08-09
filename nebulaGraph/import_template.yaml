@@ -1,0 +1,262 @@
+### Please refer to the repo (https://github.com/vesoft-inc/nebula-importer) for configuration details---
+client:
+  version: "v3"
+  user: "root"
+  password: "nebula"
+  address: "172.20.0.9:9669"
+manager:
+  spaceName: "network_tree"
+sources:
+  -
+    path: "region.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    tags:
+      -
+        name: "region"
+        id:
+          index: 0
+          type: "string"
+        props:
+          -
+            name: "name"
+            type: "string"
+  -
+    path: "dc.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    tags:
+      -
+        name: "dc"
+        id:
+          index: 0
+          type: "string"
+        props:
+          -
+            name: "name"
+            type: "string"
+  -
+    path: "zone.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    tags:
+      -
+        name: "zone"
+        id:
+          index: 0
+          type: "string"
+        props:
+          -
+            name: "name"
+            type: "string"
+  -
+    path: "netRegion.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    tags:
+      -
+        name: "netRegion"
+        id:
+          index: 0
+          type: "string"
+        props:
+          -
+            name: "name"
+            type: "string"
+  -
+    path: "device.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    tags:
+      -
+        name: "device"
+        id:
+          index: 0
+          type: "string"
+        props:
+          -
+            name: "name"
+            type: "string"
+  -
+    path: "ports.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    tags:
+      -
+        name: "ports"
+        id:
+          index: 0
+          type: "string"
+        props:
+          -
+            name: "name"
+            type: "string"
+  -
+    path: "server.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    tags:
+      -
+        name: "server"
+        id:
+          index: 0
+          type: "string"
+        props:
+          -
+            name: "name"
+            type: "string"
+  -
+    path: "team.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    tags:
+      -
+        name: "team"
+        id:
+          index: 0
+          type: "string"
+        props:
+          -
+            name: "name"
+            type: "string"
+  -
+    path: "construct.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    edges:
+      -
+        name: "construct"
+        mode: "INSERT"
+        src:
+          id:
+            type: "string"
+            index: 0
+        dst:
+          id:
+            type: "string"
+            index: 1
+        rank:
+          index: 0
+  -
+    path: "divide.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    edges:
+      -
+        name: "divide"
+        mode: "INSERT"
+        src:
+          id:
+            type: "string"
+            index: 0
+        dst:
+          id:
+            type: "string"
+            index: 1
+        rank:
+          index: 0
+  -
+    path: "split.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    edges:
+      -
+        name: "split"
+        mode: "INSERT"
+        src:
+          id:
+            type: "string"
+            index: 0
+        dst:
+          id:
+            type: "string"
+            index: 1
+        rank:
+          index: 0
+  -
+    path: "deploy.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    edges:
+      -
+        name: "deploy"
+        mode: "INSERT"
+        src:
+          id:
+            type: "string"
+            index: 0
+        dst:
+          id:
+            type: "string"
+            index: 1
+        rank:
+          index: 0
+  -
+    path: "contain.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    edges:
+      -
+        name: "contain"
+        mode: "INSERT"
+        src:
+          id:
+            type: "string"
+            index: 0
+        dst:
+          id:
+            type: "string"
+            index: 1
+        rank:
+          index: 0
+  -
+    path: "connect.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    edges:
+      -
+        name: "connect"
+        mode: "INSERT"
+        src:
+          id:
+            type: "string"
+            index: 0
+        dst:
+          id:
+            type: "string"
+            index: 1
+        rank:
+          index: 0
+  -
+    path: "use.csv"
+    csv:
+      withHeader: false
+      delimiter: ","
+    edges:
+      -
+        name: "use"
+        mode: "INSERT"
+        src:
+          id:
+            type: "string"
+            index: 0
+        dst:
+          id:
+            type: "string"
+            index: 1
+        rank:
+          index: 0

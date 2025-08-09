@@ -7,7 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func main() {
+func TransactionExample() {
 
 	var uri = "mongodb://localhost:27020,localhost:27021/?replset=rs0"
 

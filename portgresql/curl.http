@@ -1,0 +1,15 @@
+POST http://localhost:8089/insert HTTP/1.1
+username: xianchaoxing
+
+{"content": "西雅图地标建筑, Seattle Space Needle, 西雅图太空针. Sky tree."}
+###
+
+POST http://localhost:8089/insert HTTP/1.1
+username: xianchaoxing
+
+{"content": "《复仇者联盟3：无限战争》是全片使用IMAX摄影机拍摄制作的的科幻片."}
+###
+
+GET http://localhost:8089/search?query=市场 HTTP/1.1
+username: xianchaoxing
+###

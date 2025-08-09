@@ -9,5 +9,6 @@ func randomWrite() error {
 		return err
 	}
 
-	file.WriteAt()
+	file.WriteAt(nil, 0)
+	return nil
 }

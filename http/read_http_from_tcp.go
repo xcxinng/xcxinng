@@ -133,6 +133,6 @@ func runHttpPrinter() {
 	}
 }
 
-func main() {
-	runHttpPrinter()
-}
+// func main() {
+// 	runHttpPrinter()
+// }

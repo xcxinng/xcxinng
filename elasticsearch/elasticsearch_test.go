@@ -42,3 +42,7 @@ func Test_jsonToValues(t *testing.T) {
 	}
 	t.Log(ret)
 }
+
+func TestExample(t *testing.T) {
+	example()
+}

@@ -15,6 +15,6 @@
 *.out
 /*.txt
 /*.json
-lsm.tar.gz
-go.work
+/*.yaml
+/*.http
 .gitignore

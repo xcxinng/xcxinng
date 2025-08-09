@@ -11,6 +11,15 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
+// 【本地环境启动】
+//
+// sudo /opt/homebrew/opt/mongodb-community@7.0/bin/mongod -f /opt/homebrew/etc/mongod.conf
+// sudo /opt/homebrew/opt/mongodb-community@7.0/bin/mongod -f /opt/homebrew/etc/mongod-27020.conf
+// sudo /opt/homebrew/opt/mongodb-community@7.0/bin/mongod -f /opt/homebrew/etc/mongod-27021.conf
+//
+// 【连接uri】
+// mongosh "mongodb://localhost:27017,localhost:27020,localhost:27021/?replicaSet=rs0"
+
 // ConnectMongo will connect to a mongodb replica set.
 //
 // The main purpose here is to test how driver behavior in a
